@@ -2,6 +2,13 @@
   "name": "web-client",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "env-cmd -f env/.env.development react-scripts start",
+    "build": "env-cmd -f env/.env.production react-scripts build",
+    "test": "env-cmd -f env/.env.test react-scripts test",
+    "eject": "react-scripts eject",
+    "gen-fetcher": "restful-react import --url http://localhost:3000/api-json --output src/stubs/fetchers.tsx"
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
@@ -9,18 +16,15 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.2",
+    "env-cmd": "^10.1.0",
     "node-sass": "^4.14.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "restful-react": "^15.2.0",
+    "typescript": "^4.1.3",
     "web-vitals": "^0.2.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

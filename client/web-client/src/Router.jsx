@@ -5,6 +5,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 
+// just for testing purpose
 const Home = () => <h2>Home</h2>;
 
 const About = () => <h2>About</h2>;

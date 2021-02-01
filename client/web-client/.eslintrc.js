@@ -20,7 +20,7 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-one-expression-per-line': 'off',
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', '.tsx'] }],
     'arrow-body-style': 'off',
     'func-names': ['error', 'always'],
     'import/prefer-default-export': 'off',

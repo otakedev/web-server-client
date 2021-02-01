@@ -7,6 +7,7 @@ import {
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import { Router } from '../Router';
+import { HelloWorld } from './HelloWorld';
 
 function LightBulbIcon(props) {
   return (
@@ -64,6 +65,7 @@ export const App = () => {
         >
           Learn React
         </Link>
+        <HelloWorld />
         <Router />
       </Box>
     </Container>
