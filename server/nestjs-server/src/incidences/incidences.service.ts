@@ -2,24 +2,24 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { IncidenceDocument } from './incidence.schema';
 import { IncidenceInput } from './dto/incidence-input.model';
-import { InjectModel } from '@nestjs/mongoose'
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class IncidencesService {
   constructor(
     @InjectModel('Incidences')
-    private readonly incidenceModel: Model<IncidenceDocument>
+    private readonly incidenceModel: Model<IncidenceDocument>,
   ) {}
 
   findAll(): Promise<IncidenceDocument[]> {
     return this.incidenceModel.find().exec();
   }
 
-  findOne(id: Number): Promise<IncidenceDocument> {
-    return this.incidenceModel.findOne({id: id}).exec();
+  findOne(id: number): Promise<IncidenceDocument> {
+    return this.incidenceModel.findOne({ id: id }).exec();
   }
 
-  async remove(id: Number): Promise<void> {
+  async remove(id: number): Promise<void> {
     await this.incidenceModel.findByIdAndDelete(id).exec();
   }
 
@@ -27,21 +27,25 @@ export class IncidencesService {
     return this.incidenceModel.insertMany(incidences);
   }
 
-  csvToJSON(csv, separator){
-    var lines=csv.split("\n");
-    var result = [];
-    var headers=lines[0].split(separator);
-    for(var i=1;i<lines.length;i++){
-      var obj = {};
-      var currentline=lines[i].split(separator);
-      for(var j=0;j<headers.length;j++){
+  csvToJSON(csv, separator) {
+    const lines = csv.split('\n');
+    const result = [];
+    const headers = lines[0].split(separator);
+    for (let i = 1; i < lines.length; i++) {
+      const obj = {};
+      const currentline = lines[i].split(separator);
+      for (let j = 0; j < headers.length; j++) {
         if (!currentline[j]) break;
         obj[headers[j]] = currentline[j];
       }
-      if(Object.keys(obj).length > 1){
+      if (Object.keys(obj).length > 1) {
         result.push(obj);
       }
     }
     return result;
-	}
+  }
+
+  async deleteAll() {
+    return this.incidenceModel.deleteMany({}).exec();
+  }
 }
