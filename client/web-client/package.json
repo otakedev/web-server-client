@@ -7,7 +7,8 @@
     "build": "env-cmd -f env/.env.production react-scripts build",
     "test": "env-cmd -f env/.env.test react-scripts test",
     "eject": "react-scripts eject",
-    "gen-fetcher": "restful-react import --url http://localhost:3000/api-json --output src/stubs/fetchers.tsx"
+    "gen-fetcher": "restful-react import --url http://localhost:3000/api-json --output src/stubs/fetchers.tsx",
+    "lint": "eslint --fix"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
@@ -16,6 +17,7 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.2",
+    "chart.js": "^2.9.4",
     "env-cmd": "^10.1.0",
     "node-sass": "^4.14.1",
     "react": "^17.0.1",
