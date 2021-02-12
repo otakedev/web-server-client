@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 
 export function App() {
   const { data: message } = useGet({ path: '/incidences' });
-  console.log(message);
 
   const classes = useStyles();
   return (
