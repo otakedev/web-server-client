@@ -9,7 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { IncidencesService } from './incidences.service';
 import { IncidenceInput } from './dto/incidence-input.model';
 
-@Controller('incidences')
+@Controller()
 export class IncidencesController {
   constructor(private readonly incidencesService: IncidencesService) {}
 
