@@ -5,10 +5,14 @@ import {
   Tab,
   Tabs,
   AppBar,
+  IconButton,
+  Badge,
   makeStyles,
+  Tooltip,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { useGet } from 'restful-react';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import { ChartIncidences } from './ChartIncidences';
 import { TableIncidences } from './TableIncidences';
 
@@ -36,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
   lightBulb: {
     verticalAlign: 'middle',
     marginRight: theme.spacing(1),
+  },
+
+  IconButton: {
+    marginRight: '2rem',
   },
 
 }));
@@ -80,7 +88,8 @@ function a11yProps(index) {
 }
 
 export function App() {
-  const { data: message } = useGet({ path: '/incidences' });
+  const { data: message } = useGet({ path: 'api/v0/incidences' });
+  const { data: numbercaseconfirm } = useGet({ path: 'api/v0/case-confirm' });
 
   const classes = useStyles();
 
@@ -93,9 +102,17 @@ export function App() {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="view tab">
+        <Tabs value={value} onChange={handleChange} variant="fullWidth" aria-label="view tab">
           <Tab label="Table" {...a11yProps(0)} />
           <Tab label="Chart" {...a11yProps(1)} />
+          <Tooltip title="Nombre de cas confirmé en France">
+            <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
+              <Badge badgeContent={numbercaseconfirm} max={99999999} color="secondary">
+                <LocalHospitalIcon />
+              </Badge>
+            </IconButton>
+          </Tooltip>
+
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
