@@ -1,7 +1,6 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { IncidenceDocument } from './incidence.schema';
-import { IncidenceInput } from './dto/incidence-input.model';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
