@@ -15,5 +15,9 @@ export default createMuiTheme({
     background: {
       default: '#ffffff',
     },
+    text: {
+      default: '#4f4f4f',
+      light: '#fff',
+    },
   },
 });
