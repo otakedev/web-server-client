@@ -10,3 +10,21 @@ export class IncidenceInput {
   cl_age90: number;
   tx_std?: number;
 }
+
+export class IncidenceRegionsInput {
+  lastUpdateDate: Date;
+  lastUpdateId: number;
+  data: [IncidenceRegionModel];
+}
+
+export interface IncidenceRegionModel {
+  count: number;
+  date: Date;
+  regions: [
+    {
+      reg: string;
+      tx_std: number;
+      count: number;
+    },
+  ];
+}

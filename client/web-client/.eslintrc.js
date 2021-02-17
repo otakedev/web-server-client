@@ -26,6 +26,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'linebreak-style': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'no-unused-vars': 'warn',
     'no-restricted-imports': [
       'error',
       {
