@@ -1,46 +1,58 @@
 import {
-  Box,
+  AppBar,
+  makeStyles, Typography,
 } from '@material-ui/core';
-import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core/styles';
-import { useGet } from 'restful-react';
-import { ChartIncidences } from './ChartIncidences';
+import Toolbar from '@material-ui/core/Toolbar';
+import React from 'react';
+import {
+  BrowserRouter, Link, Redirect, Route, Switch,
+} from 'react-router-dom';
+import { HomePage, ErrorPage, GeoPage } from './pages';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: 'center',
-  },
-
-  header: {
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: 'calc(10px + 2vmin)',
-    color: 'white',
+    flexGrow: 1,
+    backgroundColor: theme.palette.primary.default,
   },
 
   link: {
-    color: '#61dafb',
+    padding: '1rem',
+    '& a': {
+      color: theme.palette.text.light,
+    },
   },
-
-  lightBulb: {
-    verticalAlign: 'middle',
-    marginRight: theme.spacing(1),
-  },
-
 }));
 
-export function App() {
-  const { data: message } = useGet({ path: '/incidences' });
-
+export const App = () => {
   const classes = useStyles();
+
   return (
-    <Container maxWidth="sm">
-      <Box my={4} className={classes.header}>
-        {message ? <ChartIncidences data={message} /> : null}
-      </Box>
-    </Container>
+    <BrowserRouter>
+
+      <AppBar position="static" className={classes.root}>
+        <Toolbar>
+          <Typography variant="h6" className={classes.link}>
+            <Link to="/graph">Graphes</Link>
+          </Typography>
+          <Typography variant="h6" className={classes.link}>
+            <Link to="/map">Carte par régions</Link>
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      <Switch>
+        <Route exact path="/">
+          <Redirect to="/graph" />
+        </Route>
+        <Route path="/graph" component={HomePage} />
+        <Route path="/map" component={GeoPage} />
+        <Route exact path="/error" component={ErrorPage} />
+        <Route exact path="*">
+          <Redirect to="/error" />
+        </Route>
+      </Switch>
+
+    </BrowserRouter>
   );
-}
+};

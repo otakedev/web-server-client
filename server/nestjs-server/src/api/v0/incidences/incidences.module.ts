@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { IncidencesService } from './incidences.service';
 import { IncidencesController } from './incidences.controller';
@@ -15,4 +16,4 @@ import { FiltersModule } from './filters/filters.module';
   providers: [IncidencesService],
   controllers: [IncidencesController],
 })
-export class IncidencesModule {}
+export class IncidencesModule { }

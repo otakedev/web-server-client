@@ -7,6 +7,7 @@ const useStyles = makeStyles(() => ({
   chartContainer: {
     height: '40vh',
     width: '80vw',
+    margin: 'auto',
   },
 }));
 

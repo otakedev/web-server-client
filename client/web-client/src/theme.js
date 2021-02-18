@@ -13,7 +13,11 @@ export default createMuiTheme({
       main: red.A400,
     },
     background: {
-      default: '#282c34',
+      default: '#ffffff',
+    },
+    text: {
+      default: '#4f4f4f',
+      light: '#fff',
     },
   },
 });

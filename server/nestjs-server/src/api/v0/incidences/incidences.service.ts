@@ -1,17 +1,65 @@
-import { Model } from 'mongoose';
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { IncidenceDocument } from './incidence.schema';
 import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { IncidenceRegionModel } from './dto/incidence-input.model';
+import { IncidenceDocument } from './incidence.schema';
 
 @Injectable()
 export class IncidencesService {
   constructor(
     @InjectModel('Incidences')
     private readonly incidenceModel: Model<IncidenceDocument>,
-  ) {}
+  ) { }
 
   findAll(): Promise<IncidenceDocument[]> {
     return this.incidenceModel.find().exec();
+  }
+
+  findAllByRegion(limit = 1): Promise<IncidenceRegionModel[]> {
+    return this.incidenceModel.aggregate([
+      {
+        '$group': {
+          '_id': {
+            'jour': '$jour',
+            'reg': '$reg'
+          },
+          'tx_std': {
+            '$sum': '$tx_std'
+          },
+          'dateCount': {
+            '$sum': 1
+          }
+        }
+      }, {
+        '$group': {
+          '_id': '$_id.jour',
+          'regions': {
+            '$push': {
+              'reg': '$_id.reg',
+              'tx_std': '$tx_std',
+              'count': '$dateCount'
+            }
+          },
+          'count': {
+            '$sum': '$dateCount'
+          }
+        }
+      }, {
+        '$sort': {
+          '_id': -1
+        }
+      }, {
+        '$limit': limit
+      }, {
+        '$project': {
+          '_id': 0,
+          'date': '$_id',
+          'regions': '$regions',
+          'count': '$count'
+        }
+      }
+    ]).exec();
   }
 
   findOne(id: number): Promise<IncidenceDocument> {
