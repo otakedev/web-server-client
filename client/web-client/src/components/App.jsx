@@ -3,7 +3,6 @@ import {
   makeStyles, Typography,
 } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
-import React from 'react';
 import {
   BrowserRouter, Link, Redirect, Route, Switch,
 } from 'react-router-dom';

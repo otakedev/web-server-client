@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { RestfulProvider } from 'restful-react';
 import { App } from './components/App';
-import { GeoPage } from './components/pages';
 import './index.scss';
 import theme from './theme';
 

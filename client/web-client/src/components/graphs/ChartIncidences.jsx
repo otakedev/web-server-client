@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Chartjs from 'chart.js';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -11,14 +11,16 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+let newChartInstance = null;
+
 export const ChartIncidences = ({ data }) => {
   const chartContainer = useRef(null);
-  const [, setChartInstance] = useState(null);
-
   const classes = useStyles();
 
   useEffect(() => {
-    const newChartInstance = new Chartjs(chartContainer.current, {
+    newChartInstance?.destroy();
+
+    newChartInstance = new Chartjs(chartContainer.current, {
       type: 'line',
       data: {
         labels: data.map((d) => d.jour),
@@ -31,8 +33,7 @@ export const ChartIncidences = ({ data }) => {
         ],
       },
     });
-    setChartInstance(newChartInstance);
-  }, [chartContainer]);
+  }, [data]);
 
   return (
     <div className={classes.chartContainer}>

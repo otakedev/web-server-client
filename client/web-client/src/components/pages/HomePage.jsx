@@ -4,12 +4,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Link, Redirect, Route, Switch, useRouteMatch,
 } from 'react-router-dom';
 import { useGet } from 'restful-react';
-import { ChartIncidences, GeoMapIncidences, TableIncidences } from '../graphs';
+import { ChartIncidences, TableIncidences } from '../graphs';
+import { Filters } from '../Filters';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,10 +24,26 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.text.default,
     },
   },
+  filters: {
+    justifyContent: 'center',
+    display: 'flex',
+    marginTop: '5rem',
+    marginBottom: '2rem',
+  },
 }));
 
 export function HomePage() {
-  const { data: message } = useGet({ path: '/incidences' });
+  const { data: classAges } = useGet({ path: '/api/v0/incidences/filters/class-age' });
+
+  const [data, setData] = useState(undefined);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/v0/incidences')// TODO
+      .then((response) => response.json())
+      .then((d) => {
+        setData(d);
+      });
+  }, []);
 
   const classes = useStyles();
 
@@ -44,16 +61,23 @@ export function HomePage() {
           </Typography>
         </Toolbar>
       </AppBar>
-
+      <div className={classes.filters}>
+        {classAges ? (
+          <Filters
+            classAgesProps={classAges}
+            setData={setData}
+          />
+        ) : null}
+      </div>
       <Switch>
         <Route exact path={`${path}`}>
           <Redirect to={`${url}/chart`} />
         </Route>
         <Route exact path={`${path}/table`}>
-          {message ? <TableIncidences data={message} /> : null}
+          {data ? <TableIncidences data={data} /> : null}
         </Route>
         <Route exact path={`${path}/chart`}>
-          {message ? <ChartIncidences data={message} /> : null}
+          {data ? <ChartIncidences data={data} /> : null}
         </Route>
         <Redirect to="/error" />
       </Switch>
