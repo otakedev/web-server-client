@@ -1,21 +1,28 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
   Post,
   UploadedFile,
-  UseInterceptors,
+  UseInterceptors
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { IncidenceInput, IncidenceRegionModel } from './dto/incidence-input.model';
 import { IncidencesService } from './incidences.service';
-import { IncidenceInput } from './dto/incidence-input.model';
 
 @Controller()
 export class IncidencesController {
-  constructor(private readonly incidencesService: IncidencesService) {}
+  constructor(private readonly incidencesService: IncidencesService) { }
 
   @Get()
   async getIncidences() {
     return await this.incidencesService.findAll();
+  }
+
+  @Get('/regions')
+  async getIncidencesByRegion(): Promise<IncidenceRegionModel> {
+    const incidences = await this.incidencesService.findAllByRegion(1);
+    return incidences[0];
   }
 
   @Post()

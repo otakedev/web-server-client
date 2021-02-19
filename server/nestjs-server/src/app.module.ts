@@ -5,6 +5,7 @@ import { IncidencesModule } from './api/v0/incidences/incidences.module';
 import { FiltersModule } from './api/v0/incidences/filters/filters.module';
 import { RouterModule, Routes } from 'nest-router';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CaseConfirmModule } from './api/v0/case-confirm/case-confirm.module';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: '/case-confirm',
+    module: CaseConfirmModule,
+  },
 ];
 
 @Module({
@@ -28,6 +33,7 @@ const routes: Routes = [
     }),
     RouterModule.forRoutes(routes),
     IncidencesModule,
+    CaseConfirmModule,
   ],
   controllers: [AppController],
   providers: [AppService],

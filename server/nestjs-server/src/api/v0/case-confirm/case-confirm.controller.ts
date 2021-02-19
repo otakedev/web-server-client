@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { CaseConfirmService } from './case-confirm.service';
 
-@Controller('case-confirm')
+@Controller()
 export class CaseConfirmController {
   constructor(private readonly caseConfirmService: CaseConfirmService) {}
   @Get()

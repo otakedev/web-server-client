@@ -49,3 +49,18 @@ export type UseIncidencesControllerUploadFileProps = Omit<UseMutateProps<void, u
 
 export const useIncidencesControllerUploadFile = (props: UseIncidencesControllerUploadFileProps) => useMutate<void, unknown, void, void, void>("POST", `/incidences`, props);
 
+
+export type IncidencesControllerGetIncidencesByRegionProps = Omit<GetProps<void, unknown, void, void>, "path">;
+
+export const IncidencesControllerGetIncidencesByRegion = (props: IncidencesControllerGetIncidencesByRegionProps) => (
+  <Get<void, unknown, void, void>
+    path={`/incidences/regions`}
+    
+    {...props}
+  />
+);
+
+export type UseIncidencesControllerGetIncidencesByRegionProps = Omit<UseGetProps<void, unknown, void, void>, "path">;
+
+export const useIncidencesControllerGetIncidencesByRegion = (props: UseIncidencesControllerGetIncidencesByRegionProps) => useGet<void, unknown, void, void>(`/incidences/regions`, props);
+
