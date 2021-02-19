@@ -13,7 +13,6 @@ export class CaseConfirmService {
       .then(
         (res) => {
           const caseconfirm = res.data.FranceGlobalLiveData[0].casConfirmes;
-          console.log(caseconfirm);
           return caseconfirm;
         },
         (err) => {
