@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function HomePage() {
-  const { data: message } = useGet({ path: '/incidences' });
+  const { data: message } = useGet({ path: '/api/v0/incidences' });
 
   const classes = useStyles();
 

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function GeoPage() {
-  const { data: message } = useGet({ path: '/incidences/regions' });
+  const { data: message } = useGet({ path: '/api/v0/incidences/regions' });
   const [content, setContent] = useState('');
 
   useEffect(() => {
