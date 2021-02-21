@@ -13,7 +13,7 @@ export class IncidencesService {
   ) { }
 
   findAll(): Promise<IncidenceDocument[]> {
-    return this.incidenceModel.find().exec();
+    return this.incidenceModel.find({ cl_age90: 0 }).exec();
   }
 
   findAllByRegion(limit = 1): Promise<IncidenceRegionModel[]> {
@@ -64,6 +64,28 @@ export class IncidencesService {
 
   findOne(id: number): Promise<IncidenceDocument> {
     return this.incidenceModel.findOne({ id: id }).exec();
+  }
+
+  findWithFilters(query): Promise<IncidenceDocument[]> {
+    const filters = {};
+    if (!isNaN(parseInt(query.class_age))) {
+      filters['cl_age90'] = query.class_age;
+    } else {
+      filters['cl_age90'] = 0;
+    }
+
+    if (query.since && query.to) {
+      filters['jour'] = {
+        $gte: query.since,
+        $lt: query.to,
+      };
+    } else if (query.since) {
+      filters['jour'] = { $gte: query.since };
+    } else if (query.to) {
+      filters['jour'] = { $lt: query.to };
+    }
+
+    return this.incidenceModel.find(filters).exec();
   }
 
   async remove(id: number): Promise<void> {

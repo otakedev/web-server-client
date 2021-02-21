@@ -15,6 +15,5 @@ import { FiltersModule } from './filters/filters.module';
   ],
   providers: [IncidencesService],
   controllers: [IncidencesController],
-  exports: [IncidencesService],
 })
 export class IncidencesModule { }

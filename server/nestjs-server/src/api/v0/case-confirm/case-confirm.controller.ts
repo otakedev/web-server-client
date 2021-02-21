@@ -3,7 +3,8 @@ import { CaseConfirmService } from './case-confirm.service';
 
 @Controller()
 export class CaseConfirmController {
-  constructor(private readonly caseConfirmService: CaseConfirmService) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private readonly caseConfirmService: CaseConfirmService) { }
   @Get()
   getCaseConfirm() {
     return this.caseConfirmService.getCaseConfirmFromApi();

@@ -6,7 +6,6 @@ import {
 import Toolbar from '@material-ui/core/Toolbar';
 import { useGet } from 'restful-react';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
-import React from 'react';
 import {
   BrowserRouter, Link, Redirect, Route, Switch,
 } from 'react-router-dom';
@@ -47,7 +46,7 @@ export const App = () => {
           <Typography variant="h6" className={classes.link}>
             <Link to="/map">Carte par régions</Link>
           </Typography>
-          <Tooltip title="Nombre de cas confirmé en France">
+          <Tooltip title="Nombre de cas hospitalisés en France">
             <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
               <Badge badgeContent={numbercaseconfirm} max={99999999} color="secondary">
                 <LocalHospitalIcon />

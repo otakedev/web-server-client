@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { DataGrid } from '@material-ui/data-grid';
+import { XGrid, useApiRef } from '@material-ui/x-grid';
 
 const columns = [
   { field: 'reg', headerName: 'Région' },
@@ -15,7 +15,7 @@ const columns = [
   { field: 'tx_std', headerName: 'Taux d\'incidence', width: 170 },
 ];
 
-const rows = [];
+let rows = [];
 
 let counterId = 0;
 
@@ -37,24 +37,40 @@ function createData(reg_, date, pop_, popMan, popWoman, posi, posiMan, posiWoman
 }
 
 export const TableIncidences = ({ data }) => {
-  data.forEach((element) => {
-    createData(
-      element.reg,
-      element.jour,
-      element.pop,
-      element.pop_h,
-      element.pop_f,
-      element.P,
-      element.P_h,
-      element.P_f,
-      element.cl_age90,
-      element.tx_std,
-    );
-  });
+  const apiRef = useApiRef();
+
+  useEffect(() => {
+    counterId = 0;
+    rows = [];
+
+    apiRef.current.setRows(rows);
+
+    data.forEach((element) => {
+      createData(
+        element.reg,
+        element.jour,
+        element.pop,
+        element.pop_h,
+        element.pop_f,
+        element.P,
+        element.P_h,
+        element.P_f,
+        element.cl_age90,
+        element.tx_std,
+      );
+    });
+
+    apiRef.current.setRows(rows);
+  }, [data, apiRef]);
 
   return (
     <div style={{ height: 840, width: '100%' }}>
-      <DataGrid rows={rows} columns={columns} rowsPerPageOptions={[10, 25, 50, 100]} />
+      <XGrid
+        rows={rows}
+        columns={columns}
+        rowsPerPageOptions={[10, 25, 50, 100]}
+        apiRef={apiRef}
+      />
     </div>
   );
 };

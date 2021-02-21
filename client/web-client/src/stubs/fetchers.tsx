@@ -8,7 +8,7 @@ export type AppControllerGetHelloProps = Omit<GetProps<void, unknown, void, void
 
 export const AppControllerGetHello = (props: AppControllerGetHelloProps) => (
   <Get<void, unknown, void, void>
-    path={`/`}
+    path={`/api/v0`}
     
     {...props}
   />
@@ -16,14 +16,14 @@ export const AppControllerGetHello = (props: AppControllerGetHelloProps) => (
 
 export type UseAppControllerGetHelloProps = Omit<UseGetProps<void, unknown, void, void>, "path">;
 
-export const useAppControllerGetHello = (props: UseAppControllerGetHelloProps) => useGet<void, unknown, void, void>(`/`, props);
+export const useAppControllerGetHello = (props: UseAppControllerGetHelloProps) => useGet<void, unknown, void, void>(`/api/v0`, props);
 
 
 export type IncidencesControllerGetIncidencesProps = Omit<GetProps<void, unknown, void, void>, "path">;
 
 export const IncidencesControllerGetIncidences = (props: IncidencesControllerGetIncidencesProps) => (
   <Get<void, unknown, void, void>
-    path={`/incidences`}
+    path={`/api/v0/incidences`}
     
     {...props}
   />
@@ -31,7 +31,7 @@ export const IncidencesControllerGetIncidences = (props: IncidencesControllerGet
 
 export type UseIncidencesControllerGetIncidencesProps = Omit<UseGetProps<void, unknown, void, void>, "path">;
 
-export const useIncidencesControllerGetIncidences = (props: UseIncidencesControllerGetIncidencesProps) => useGet<void, unknown, void, void>(`/incidences`, props);
+export const useIncidencesControllerGetIncidences = (props: UseIncidencesControllerGetIncidencesProps) => useGet<void, unknown, void, void>(`/api/v0/incidences`, props);
 
 
 export type IncidencesControllerUploadFileProps = Omit<MutateProps<void, unknown, void, void, void>, "path" | "verb">;
@@ -39,7 +39,7 @@ export type IncidencesControllerUploadFileProps = Omit<MutateProps<void, unknown
 export const IncidencesControllerUploadFile = (props: IncidencesControllerUploadFileProps) => (
   <Mutate<void, unknown, void, void, void>
     verb="POST"
-    path={`/incidences`}
+    path={`/api/v0/incidences`}
     
     {...props}
   />
@@ -47,14 +47,14 @@ export const IncidencesControllerUploadFile = (props: IncidencesControllerUpload
 
 export type UseIncidencesControllerUploadFileProps = Omit<UseMutateProps<void, unknown, void, void, void>, "path" | "verb">;
 
-export const useIncidencesControllerUploadFile = (props: UseIncidencesControllerUploadFileProps) => useMutate<void, unknown, void, void, void>("POST", `/incidences`, props);
+export const useIncidencesControllerUploadFile = (props: UseIncidencesControllerUploadFileProps) => useMutate<void, unknown, void, void, void>("POST", `/api/v0/incidences`, props);
 
 
 export type IncidencesControllerGetIncidencesByRegionProps = Omit<GetProps<void, unknown, void, void>, "path">;
 
 export const IncidencesControllerGetIncidencesByRegion = (props: IncidencesControllerGetIncidencesByRegionProps) => (
   <Get<void, unknown, void, void>
-    path={`/incidences/regions`}
+    path={`/api/v0/incidences/regions`}
     
     {...props}
   />
@@ -62,5 +62,50 @@ export const IncidencesControllerGetIncidencesByRegion = (props: IncidencesContr
 
 export type UseIncidencesControllerGetIncidencesByRegionProps = Omit<UseGetProps<void, unknown, void, void>, "path">;
 
-export const useIncidencesControllerGetIncidencesByRegion = (props: UseIncidencesControllerGetIncidencesByRegionProps) => useGet<void, unknown, void, void>(`/incidences/regions`, props);
+export const useIncidencesControllerGetIncidencesByRegion = (props: UseIncidencesControllerGetIncidencesByRegionProps) => useGet<void, unknown, void, void>(`/api/v0/incidences/regions`, props);
+
+
+export type FiltersControllerGetHelloProps = Omit<GetProps<void, unknown, void, void>, "path">;
+
+export const FiltersControllerGetHello = (props: FiltersControllerGetHelloProps) => (
+  <Get<void, unknown, void, void>
+    path={`/api/v0/incidences/filters`}
+    
+    {...props}
+  />
+);
+
+export type UseFiltersControllerGetHelloProps = Omit<UseGetProps<void, unknown, void, void>, "path">;
+
+export const useFiltersControllerGetHello = (props: UseFiltersControllerGetHelloProps) => useGet<void, unknown, void, void>(`/api/v0/incidences/filters`, props);
+
+
+export type FiltersControllerGetClassAgesProps = Omit<GetProps<void, unknown, void, void>, "path">;
+
+export const FiltersControllerGetClassAges = (props: FiltersControllerGetClassAgesProps) => (
+  <Get<void, unknown, void, void>
+    path={`/api/v0/incidences/filters/class-age`}
+    
+    {...props}
+  />
+);
+
+export type UseFiltersControllerGetClassAgesProps = Omit<UseGetProps<void, unknown, void, void>, "path">;
+
+export const useFiltersControllerGetClassAges = (props: UseFiltersControllerGetClassAgesProps) => useGet<void, unknown, void, void>(`/api/v0/incidences/filters/class-age`, props);
+
+
+export type CaseConfirmControllerGetCaseConfirmProps = Omit<GetProps<void, unknown, void, void>, "path">;
+
+export const CaseConfirmControllerGetCaseConfirm = (props: CaseConfirmControllerGetCaseConfirmProps) => (
+  <Get<void, unknown, void, void>
+    path={`/api/v0/case-confirm`}
+    
+    {...props}
+  />
+);
+
+export type UseCaseConfirmControllerGetCaseConfirmProps = Omit<UseGetProps<void, unknown, void, void>, "path">;
+
+export const useCaseConfirmControllerGetCaseConfirm = (props: UseCaseConfirmControllerGetCaseConfirmProps) => useGet<void, unknown, void, void>(`/api/v0/case-confirm`, props);
 

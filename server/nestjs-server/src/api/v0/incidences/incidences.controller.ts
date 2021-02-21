@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors
 } from '@nestjs/common';
@@ -15,8 +16,8 @@ export class IncidencesController {
   constructor(private readonly incidencesService: IncidencesService) { }
 
   @Get()
-  async getIncidences() {
-    return await this.incidencesService.findAll();
+  async getIncidences(@Query() query) {
+    return await this.incidencesService.findWithFilters(query);
   }
 
   @Get('/regions')
