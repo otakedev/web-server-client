@@ -38,7 +38,13 @@ export function HomePage() {
   const [data, setData] = useState(undefined);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/v0/incidences')// TODO
+    const to = new Date();
+    const since = new Date();
+    since.setMonth(to.getMonth() - 1);
+    since.setHours(0, 0, 0);
+    to.setHours(0, 0, 0);
+
+    fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?since=${since}&to=${to}`)
       .then((response) => response.json())
       .then((d) => {
         setData(d);

@@ -68,8 +68,7 @@ export class IncidencesService {
 
   findWithFilters(query): Promise<IncidenceDocument[]> {
     const filters = {};
-
-    if (query.class_age) {
+    if (!isNaN(parseInt(query.class_age))) {
       filters['cl_age90'] = query.class_age;
     } else {
       filters['cl_age90'] = 0;
