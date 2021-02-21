@@ -1,8 +1,11 @@
 import {
   AppBar,
-  makeStyles, Typography,
+  makeStyles, Tooltip, IconButton,
+  Badge, Typography,
 } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
+import { useGet } from 'restful-react';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import {
   BrowserRouter, Link, Redirect, Route, Switch,
 } from 'react-router-dom';
@@ -21,9 +24,15 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.text.light,
     },
   },
+
+  IconButton: {
+    marginRight: '2rem',
+  },
+
 }));
 
 export const App = () => {
+  const { data: numbercaseconfirm } = useGet({ path: 'api/v0/case-confirm' });
   const classes = useStyles();
 
   return (
@@ -37,6 +46,13 @@ export const App = () => {
           <Typography variant="h6" className={classes.link}>
             <Link to="/map">Carte par régions</Link>
           </Typography>
+          <Tooltip title="Nombre de cas confirmé en France">
+            <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
+              <Badge badgeContent={numbercaseconfirm} max={99999999} color="secondary">
+                <LocalHospitalIcon />
+              </Badge>
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
 
