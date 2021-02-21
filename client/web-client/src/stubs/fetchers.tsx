@@ -94,3 +94,18 @@ export type UseFiltersControllerGetClassAgesProps = Omit<UseGetProps<void, unkno
 
 export const useFiltersControllerGetClassAges = (props: UseFiltersControllerGetClassAgesProps) => useGet<void, unknown, void, void>(`/api/v0/incidences/filters/class-age`, props);
 
+
+export type CaseConfirmControllerGetCaseConfirmProps = Omit<GetProps<void, unknown, void, void>, "path">;
+
+export const CaseConfirmControllerGetCaseConfirm = (props: CaseConfirmControllerGetCaseConfirmProps) => (
+  <Get<void, unknown, void, void>
+    path={`/api/v0/case-confirm`}
+    
+    {...props}
+  />
+);
+
+export type UseCaseConfirmControllerGetCaseConfirmProps = Omit<UseGetProps<void, unknown, void, void>, "path">;
+
+export const useCaseConfirmControllerGetCaseConfirm = (props: UseCaseConfirmControllerGetCaseConfirmProps) => useGet<void, unknown, void, void>(`/api/v0/case-confirm`, props);
+

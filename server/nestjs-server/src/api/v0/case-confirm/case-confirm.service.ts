@@ -1,10 +1,9 @@
 import { HttpService, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { AxiosResponse } from 'axios';
 
 @Injectable()
 export class CaseConfirmService {
-  constructor(private httpService: HttpService) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private httpService: HttpService) { }
 
   async getCaseConfirmFromApi() {
     return await this.httpService
@@ -12,8 +11,9 @@ export class CaseConfirmService {
       .toPromise()
       .then(
         (res) => {
-          const caseconfirm = res.data.FranceGlobalLiveData[0].casConfirmes;
-          return caseconfirm;
+          const caseconfirm = res.data.FranceGlobalLiveData[0].hospitalises;
+
+          return caseconfirm ?? 'indisponible';
         },
         (err) => {
           console.log(err);

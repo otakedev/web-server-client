@@ -46,7 +46,7 @@ export const App = () => {
           <Typography variant="h6" className={classes.link}>
             <Link to="/map">Carte par régions</Link>
           </Typography>
-          <Tooltip title="Nombre de cas confirmé en France">
+          <Tooltip title="Nombre de cas hospitalisés en France">
             <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
               <Badge badgeContent={numbercaseconfirm} max={99999999} color="secondary">
                 <LocalHospitalIcon />
