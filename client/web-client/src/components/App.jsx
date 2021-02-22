@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import { useGet } from 'restful-react';
+import { useEffect } from 'react';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import {
   BrowserRouter, Link, Redirect, Route, Switch,
@@ -27,13 +28,31 @@ const useStyles = makeStyles((theme) => ({
 
   IconButton: {
     marginRight: '2rem',
+    cursor: 'default',
   },
 
 }));
 
 export const App = () => {
-  const { data: numbercaseconfirm } = useGet({ path: 'api/v0/case-confirm' });
+  const { data: numbercaseconfirm, loading, refetch } = useGet({ path: 'api/v0/case-confirm' });
   const classes = useStyles();
+
+  const MAX_PRINTABLE_NUMBER = 99999999;
+  const INTERVAL_TIME = 60000;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, INTERVAL_TIME);
+    return () => clearInterval(interval);
+  }, []);
+
+  let badge;
+  if (loading) {
+    badge = <Badge badgeContent="Loading" color="secondary"><LocalHospitalIcon /></Badge>;
+  } else {
+    badge = <Badge badgeContent={numbercaseconfirm} max={MAX_PRINTABLE_NUMBER} color="secondary"><LocalHospitalIcon /></Badge>;
+  }
 
   return (
     <BrowserRouter>
@@ -48,9 +67,7 @@ export const App = () => {
           </Typography>
           <Tooltip title="Nombre de cas hospitalisés en France">
             <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
-              <Badge badgeContent={numbercaseconfirm} max={99999999} color="secondary">
-                <LocalHospitalIcon />
-              </Badge>
+              {badge}
             </IconButton>
           </Tooltip>
         </Toolbar>
