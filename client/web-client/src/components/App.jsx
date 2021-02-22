@@ -39,8 +39,6 @@ export const App = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // eslint-disable-next-line no-console
-      console.log('Update');
       refetch();
     }, 60000);
     return () => clearInterval(interval);
