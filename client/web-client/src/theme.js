@@ -1,23 +1,45 @@
-import { red } from '@material-ui/core/colors';
+import {
+  red,
+  deepPurple,
+  blue,
+  grey,
+  green,
+} from '@material-ui/core/colors';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core';
 
-export default createMuiTheme({
-  palette: {
-    primary: {
-      main: '#556cd6',
+function createColor(isDarkTheme, color) {
+  return createMuiTheme({
+    palette: {
+      type: isDarkTheme ? 'dark' : 'light',
+      primary: {
+        main: color[800],
+        navbar: color[900],
+        link: '#ffffff',
+      },
+      secondary: {
+        main: isDarkTheme ? '#ffffff' : color[800],
+      },
+      error: {
+        main: red.A400,
+      },
+      background: {
+        default: isDarkTheme ? grey[800] : '#ffffff',
+      },
     },
-    secondary: {
-      main: '#19857b',
-    },
-    error: {
-      main: red.A400,
-    },
-    background: {
-      default: '#ffffff',
-    },
-    text: {
-      default: '#4f4f4f',
-      light: '#fff',
-    },
-  },
-});
+  });
+}
+
+function getTheme(color, isDark) {
+  switch (color) {
+    case 'green':
+      return createColor(isDark, green);
+    case 'blue':
+      return createColor(isDark, blue);
+    case 'purple':
+      return createColor(isDark, deepPurple);
+    default:
+      return createColor(false, blue);
+  }
+}
+
+export default getTheme;
