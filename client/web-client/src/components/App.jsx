@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { useGet } from 'restful-react';
 import { useEffect } from 'react';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import RoomIcon from '@material-ui/icons/Room';
 import {
   BrowserRouter, Link, Redirect, Route, Switch,
 } from 'react-router-dom';
@@ -54,6 +55,19 @@ export const App = () => {
     badge = <Badge badgeContent={numbercaseconfirm} max={MAX_PRINTABLE_NUMBER} color="secondary"><LocalHospitalIcon /></Badge>;
   }
 
+  const Geolocate = () => {
+    if ('geolocation' in navigator) {
+      console.log('Available');
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position);
+      }, (error) => {
+        console.log(error);
+      }, { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true });
+    } else {
+      console.log('Not Available');
+    }
+  };
+
   return (
     <BrowserRouter>
 
@@ -68,6 +82,11 @@ export const App = () => {
           <Tooltip title="Nombre de cas hospitalisés en France">
             <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
               {badge}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Utiliser la géolocalisation">
+            <IconButton aria-label="icon button" onClick={() => Geolocate()} color="inherit" className={classes.IconButton}>
+              <RoomIcon />
             </IconButton>
           </Tooltip>
         </Toolbar>
