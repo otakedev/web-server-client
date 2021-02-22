@@ -37,10 +37,13 @@ export const App = () => {
   const { data: numbercaseconfirm, loading, refetch } = useGet({ path: 'api/v0/case-confirm' });
   const classes = useStyles();
 
+  const MAX_PRINTABLE_NUMBER = 99999999;
+  const INTERVAL_TIME = 60000;
+
   useEffect(() => {
     const interval = setInterval(() => {
       refetch();
-    }, 60000);
+    }, INTERVAL_TIME);
     return () => clearInterval(interval);
   }, []);
 
@@ -48,7 +51,7 @@ export const App = () => {
   if (loading) {
     badge = <Badge badgeContent="Loading" color="secondary"><LocalHospitalIcon /></Badge>;
   } else {
-    badge = <Badge badgeContent={numbercaseconfirm} max={99999999} color="secondary"><LocalHospitalIcon /></Badge>;
+    badge = <Badge badgeContent={numbercaseconfirm} max={MAX_PRINTABLE_NUMBER} color="secondary"><LocalHospitalIcon /></Badge>;
   }
 
   return (
