@@ -14,7 +14,7 @@ FROM node:14.15-alpine as client-production
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY api/* .
+COPY api/ .
 
 RUN npm ci --only=production
 

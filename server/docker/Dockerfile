@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY temp/*.json ./
 RUN npm install
 
-COPY temp/* .
+COPY temp/ .
 RUN npm run build
 
 FROM node:14.15-alpine as server-production

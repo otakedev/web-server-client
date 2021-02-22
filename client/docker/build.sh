@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SERVER_URL=${1:-http://localhost:8095}
+
 parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 cd "$parent_path"
 
@@ -11,7 +13,7 @@ cp -r ../web-client/public ./temp/
 
 mkdir ./temp/env
 cat > ./temp/env/.env.production << EOF
-REACT_APP_API_ENDPOINT="http://localhost:8095"
+REACT_APP_API_ENDPOINT="$SERVER_URL"
 PORT=4200
 EOF
 

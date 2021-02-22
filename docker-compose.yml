@@ -6,7 +6,8 @@ services:
     container_name: nest
     depends_on:
       - db
-    restart: always
+    expose:
+      - "8095"
     ports:
       - "8095:3000"
     environment:
@@ -15,6 +16,8 @@ services:
   client:
     image: web-project/client
     container_name: react
+    expose:
+      - "8096"
     ports:
       - "8096:4200"
 
