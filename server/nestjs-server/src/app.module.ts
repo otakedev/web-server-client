@@ -1,3 +1,4 @@
+import { env } from './environments/environments';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -28,7 +29,7 @@ const routes: Routes = [
   imports: [
     MongooseModule.forRootAsync({
       useFactory: () => ({
-        uri: 'mongodb://localhost/nest',
+        uri: `${env.mongodb.url}/${env.mongodb.databaseName}`,
       }),
     }),
     RouterModule.forRoutes(routes),
@@ -38,4 +39,4 @@ const routes: Routes = [
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
