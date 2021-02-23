@@ -6,7 +6,7 @@ pipeline{
     }
     stages {
         stage('Redeploy') {
-            when { expression { BRANCH_NAME ==~ /(master|main|develop)/ }}
+            when { expression { BRANCH_NAME ==~ /(develop)/ }}
             steps {
                 sh '''
                     chmod +x           \
