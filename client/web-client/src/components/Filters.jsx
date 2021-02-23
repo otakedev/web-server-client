@@ -118,7 +118,7 @@ export const Filters = ({ classAgesProps, setData }) => {
             }}
           />
         </MuiPickersUtilsProvider>
-        <Button type="submit" color="primary">Envoyer</Button>
+        <Button type="submit" color="secondary">Envoyer</Button>
       </Grid>
     </form>
   );

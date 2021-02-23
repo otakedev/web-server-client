@@ -16,12 +16,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: 'center',
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.primary.background,
   },
   link: {
     padding: '1rem',
     '& a': {
-      color: theme.palette.text.default,
+      color: theme.palette.primary.link,
     },
   },
   filters: {
