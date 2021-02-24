@@ -6,6 +6,8 @@ import { FiltersModule } from './api/v0/incidences/filters/filters.module';
 import { RouterModule, Routes } from 'nest-router';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CaseConfirmModule } from './api/v0/case-confirm/case-confirm.module';
+import { ContactController } from './api/v0/contact/contact.controller';
+import { ContactModule } from './api/v0/contact/contact.module';
 
 const routes: Routes = [
   {
@@ -22,6 +24,10 @@ const routes: Routes = [
     path: '/case-confirm',
     module: CaseConfirmModule,
   },
+  {
+    path: '/contact',
+    module: ContactModule,
+  },
 ];
 
 @Module({
@@ -34,6 +40,7 @@ const routes: Routes = [
     RouterModule.forRoutes(routes),
     IncidencesModule,
     CaseConfirmModule,
+    ContactModule,
   ],
   controllers: [AppController],
   providers: [AppService],
