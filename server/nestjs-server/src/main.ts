@@ -1,3 +1,4 @@
+import { env } from './environments/environments';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -6,17 +7,17 @@ async function bootstrap() {
   require('dotenv').config();
 
   const app = await NestFactory.create(AppModule, { cors: true });
-  app.setGlobalPrefix('api/v0');
+  app.setGlobalPrefix(env.project.prefix);
 
   const config = new DocumentBuilder()
-    .setTitle('Web server API')
-    .setDescription('The Web API description')
-    .setVersion('1.0')
-    .addTag('nestJsApi')
+    .setTitle(env.openApi.title)
+    .setDescription(env.openApi.description)
+    .setVersion(env.openApi.version)
+    .addTag(env.openApi.tag)
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(env.project.port);
 }
 bootstrap();

@@ -2,6 +2,8 @@
 import {
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   Post,
   Query,
   UploadedFile,
@@ -23,6 +25,9 @@ export class IncidencesController {
   @Get('/regions')
   async getIncidencesByRegion(): Promise<IncidenceRegionModel> {
     const incidences = await this.incidencesService.findAllByRegion(1);
+    if(incidences.length <=0){
+      throw new HttpException('Data not found', HttpStatus.BAD_REQUEST);
+    }
     return incidences[0];
   }
 
