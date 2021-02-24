@@ -92,9 +92,9 @@ export const App = () => {
             <Typography variant="h6" className={classes.link}>
               <Link to="/map">Carte par régions</Link>
             </Typography>
-          <Typography variant="h6" className={classes.link}>
-            <Link to="/contact">Contact</Link>
-          </Typography>
+            <Typography variant="h6" className={classes.link}>
+              <Link to="/contact">Contact</Link>
+            </Typography>
             <Tooltip title="Nombre de cas hospitalisés en France">
               <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
                 {badge}
@@ -113,7 +113,7 @@ export const App = () => {
           </Route>
           <Route path="/graph" component={HomePage} />
           <Route path="/map" component={GeoPage} />
-        <Route path="/contact" component={ContactForm} />
+          <Route path="/contact" component={ContactForm} />
           <Route exact path="/error" component={ErrorPage} />
           <Route exact path="*">
             <Redirect to="/error" />
