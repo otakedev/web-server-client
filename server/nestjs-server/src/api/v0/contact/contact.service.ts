@@ -24,8 +24,8 @@ export class ContactService {
       text: `Hi ${body.firstname} ${body.lastname},\nWe have received your contact request. An administrator will get back to you as soon as possible.\n\nAs a reminder, here is your message:\n${body.message}`,
       subject: 'Your contact request',
       from: {
-        name: 'Otake',
-        email: 'contact@otakedev.com',
+        name: process.env.OTAKE_NAME,
+        email: process.env.OTAKE_EMAIL,
       },
       to: [
         {
