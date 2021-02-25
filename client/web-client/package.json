@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "start": "env-cmd -f env/.env.development react-scripts start",
+    "start:staging": "env-cmd -f env/.env.staging react-scripts start",
+    "start:test": "env-cmd -f env/.env.test react-scripts test",
     "build": "env-cmd -f env/.env.production react-scripts build",
-    "test": "env-cmd -f env/.env.test react-scripts test",
     "eject": "react-scripts eject",
     "gen-fetcher": "restful-react import --url http://localhost:3000/api-json --output src/stubs/fetchers.tsx",
     "lint": "eslint --fix",

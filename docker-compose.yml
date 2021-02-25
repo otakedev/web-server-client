@@ -12,6 +12,11 @@ services:
       - "8095:3000"
     environment:
       - DB_URL=mongodb://db_mongo
+      - SEND_PULSE_API_USER_ID=${SEND_PULSE_API_SECRET}
+      - SEND_PULSE_API_SECRET=${SEND_PULSE_API_SECRET}
+      - SEND_PULSE_TOKEN_STORAGE=${SEND_PULSE_TOKEN_STORAGE}
+      - OTAKE_EMAIL=${OTAKE_EMAIL}
+      - OTAKE_NAME=${OTAKE_NAME}
 
   client:
     image: web-project/client
