@@ -17,11 +17,11 @@ export interface IncidenceDocument extends mongoose.Document {
   reg: string;
   jour: string;
   P_h: number;
-  P_f: number,
-  P: number,
-  pop_h: number,
-  pop_f: number,
-  pop: number,
-  cl_age90: number,
-  tx_std: number,
+  P_f: number;
+  P: number;
+  pop_h: number;
+  pop_f: number;
+  pop: number;
+  cl_age90: number;
+  tx_std: number;
 }
