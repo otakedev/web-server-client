@@ -6,6 +6,13 @@ pipeline{
     }
     stages {
         stage('Redeploy') {
+            environment {
+                SEND_PULSE_API_USER_ID="${SEND_PULSE_API_USER_ID}"
+                SEND_PULSE_API_SECRET="${SEND_PULSE_API_SECRET}"
+                SEND_PULSE_TOKEN_STORAGE="tmp;"
+                OTAKE_EMAIL="contact@otakedev.com"
+                OTAKE_NAME="Otake"
+            }
             when { expression { BRANCH_NAME ==~ /(develop)/ }}
             steps {
                 sh '''
