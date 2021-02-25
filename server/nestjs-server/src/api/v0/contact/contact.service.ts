@@ -3,11 +3,30 @@ import { HttpException, Injectable } from '@nestjs/common';
 const sendpulse = require('sendpulse-api');
 import { ContactInput } from './dto/contact-input.model';
 
-require('dotenv').config();
+const checkDotEnvVariables = () => {
+  let errors = '';
+  [
+    'SEND_PULSE_API_USER_ID',
+    'SEND_PULSE_API_SECRET',
+    'SEND_PULSE_TOKEN_STORAGE',
+    'OTAKE_EMAIL',
+    'OTAKE_NAME'
+  ]
+    .forEach(key => {
+      if (!process.env[key]) {
+        errors += `\n${key.replace(/\_/g, ' ').toLocaleLowerCase()} not set, make sure to create a .env with a key : ${key}`
+      }
+    });
+  if (errors != '') {
+    throw new Error(`INVALID ENV VAR : ${errors}`);
+  }
+};
 
 @Injectable()
 export class ContactService {
   constructor() {
+    checkDotEnvVariables();
+
     sendpulse.init(
       process.env.SEND_PULSE_API_USER_ID,
       process.env.SEND_PULSE_API_SECRET,
@@ -34,6 +53,6 @@ export class ContactService {
       ],
     };
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    await sendpulse.smtpSendMail(() => {}, mailOptionsUser);
+    await sendpulse.smtpSendMail(() => { }, mailOptionsUser);
   }
 }

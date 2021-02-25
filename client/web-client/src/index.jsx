@@ -6,9 +6,8 @@ import './index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <RestfulProvider base={process.env.REACT_APP_API_ENDPOINT}>
+    <RestfulProvider base={process.env.REACT_APP_API_ENDPOINT ?? 'http://localhost:3000'}>
       <App />
-      {/* <GeoPage /> */}
     </RestfulProvider>
   </React.StrictMode>,
   document.getElementById('root'),
