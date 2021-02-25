@@ -19,7 +19,7 @@ export class IncidencesController {
 
   @Get()
   async getIncidences(@Query() query) {
-    return await this.incidencesService.findWithFilters(query);
+    return await this.incidencesService.findIncidenceRateFilters(query);
   }
 
   @Get('/regions')
