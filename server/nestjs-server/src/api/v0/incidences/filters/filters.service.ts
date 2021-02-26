@@ -17,4 +17,8 @@ export class FiltersService {
   async getClassAges() {
     return this.incidenceModel.find().distinct('cl_age90').exec();
   }
+
+  async getDataByRegion(codeReg) {
+    return this.incidenceModel.find({ reg: codeReg }).exec();
+  }
 }

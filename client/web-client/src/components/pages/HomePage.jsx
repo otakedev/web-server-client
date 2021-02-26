@@ -9,6 +9,7 @@ import {
   Link, Redirect, Route, Switch, useRouteMatch,
 } from 'react-router-dom';
 import { useGet } from 'restful-react';
+import PropTypes from 'prop-types';
 import { ChartIncidences, TableIncidences } from '../graphs';
 import { Filters } from '../Filters';
 
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function HomePage() {
+export const HomePage = ({ geolocalisation }) => {
   const { data: classAges } = useGet({ path: '/api/v0/incidences/filters/class-age' });
 
   const [data, setData] = useState(undefined);
@@ -43,13 +44,20 @@ export function HomePage() {
     since.setMonth(to.getMonth() - 1);
     since.setHours(0, 0, 0);
     to.setHours(0, 0, 0);
-
-    fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?since=${since}&to=${to}`)
-      .then((response) => response.json())
-      .then((d) => {
-        setData(d);
-      });
-  }, []);
+    if (geolocalisation) {
+      fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?since=${since}&to=${to}&reg=${geolocalisation}`)
+        .then((response) => response.json())
+        .then((d) => {
+          setData(d);
+        });
+    } else {
+      fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?since=${since}&to=${to}`)
+        .then((response) => response.json())
+        .then((d) => {
+          setData(d);
+        });
+    }
+  }, [geolocalisation]);
 
   const classes = useStyles();
 
@@ -70,6 +78,7 @@ export function HomePage() {
       <div className={classes.filters}>
         {classAges ? (
           <Filters
+            geolocalisation={geolocalisation}
             classAgesProps={classAges}
             setData={setData}
           />
@@ -90,4 +99,12 @@ export function HomePage() {
 
     </div>
   );
-}
+};
+
+HomePage.propTypes = {
+  geolocalisation: PropTypes.number,
+};
+
+HomePage.defaultProps = {
+  geolocalisation: null,
+};

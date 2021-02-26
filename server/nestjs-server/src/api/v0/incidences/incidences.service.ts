@@ -85,6 +85,12 @@ export class IncidencesService {
       filters['jour'] = { $lt: query.to };
     }
 
+    if (query.reg) {
+      filters['reg'] = query.reg;
+    }
+
+    
+
     return this.incidenceModel.find(filters).exec();
   }
 
