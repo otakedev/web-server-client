@@ -8,7 +8,7 @@ export class FiltersService {
   constructor(
     @InjectModel('Incidences')
     private readonly incidenceModel: Model<IncidenceDocument>,
-  ) {}
+  ) { }
 
   getHello(): string {
     return 'Hello World!';

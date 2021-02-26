@@ -18,7 +18,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "docker-build": "sh ../docker/build.sh",
+    "docker-up": "sh ../docker/up.sh",
+    "docker-down": "sh ../docker/down.sh",
+    "database": "docker-compose up -d db"
   },
   "dependencies": {
     "@nestjs/common": "^7.5.1",
@@ -26,11 +30,13 @@
     "@nestjs/mongoose": "^7.2.2",
     "@nestjs/platform-express": "^7.5.1",
     "@nestjs/swagger": "^4.7.12",
+    "dotenv": "^8.2.0",
     "mongoose": "^5.11.15",
     "nest-router": "^1.0.9",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
+    "sendpulse-api": "^1.1.5",
     "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {

@@ -14,7 +14,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function GeoPage() {
-  const { data: message } = useGet({ path: '/api/v0/incidences/regions' });
+  const { data: message } = useGet({
+    path: '/api/v0/incidences/regions',
+    resolve: (resp) => resp,
+  });
   const [content, setContent] = useState('');
 
   useEffect(() => {
@@ -25,7 +28,7 @@ export function GeoPage() {
 
   return (
     <div className={classes.root}>
-      {message ? <GeoMapIncidences data={message} setTooltipContent={setContent} /> : null}
+      {message && <GeoMapIncidences data={message} setTooltipContent={setContent} />}
       <ReactTooltip>{content}</ReactTooltip>
     </div>
   );

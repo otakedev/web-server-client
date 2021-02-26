@@ -29,7 +29,7 @@ export const Filters = ({ classAgesProps, setData, geolocalisation }) => {
   const [currentReg, setCurrentReg] = useState('00');
 
   const {
-    handleSubmit, control, watch,
+    handleSubmit, control,
   } = useForm();
 
   useEffect(() => {
@@ -164,7 +164,7 @@ export const Filters = ({ classAgesProps, setData, geolocalisation }) => {
             }}
           />
         </MuiPickersUtilsProvider>
-        <Button type="submit" color="primary">Envoyer</Button>
+        <Button type="submit" color="secondary">Envoyer</Button>
       </Grid>
     </form>
   );

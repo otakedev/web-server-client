@@ -20,9 +20,9 @@ let rows = [];
 let counterId = 0;
 
 function createData(reg_, date, pop_, popMan, popWoman, posi, posiMan, posiWoman, classAge, rate) {
-  rows.push({
+  const data = {
     id: counterId,
-    reg: reg_,
+    reg: reg_ || 'Toutes',
     jour: date,
     pop: pop_,
     pop_h: popMan,
@@ -32,7 +32,9 @@ function createData(reg_, date, pop_, popMan, popWoman, posi, posiMan, posiWoman
     P_f: posiWoman,
     cl_age90: classAge,
     tx_std: rate,
-  });
+  };
+
+  rows.push(data);
   counterId += 1;
 }
 

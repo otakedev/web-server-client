@@ -14,14 +14,14 @@ export const IncidenceSchema = new mongoose.Schema({
 });
 
 export interface IncidenceDocument extends mongoose.Document {
-  region: string;
-  day: Date;
-  positive_man: number;
-  positive_woman: number;
-  total_positive: number;
-  population_man: number;
-  population_woman: number;
-  total_population: number;
-  age_class: number;
+  reg: string;
+  jour: string;
+  P_h: number;
+  P_f: number;
+  P: number;
+  pop_h: number;
+  pop_f: number;
+  pop: number;
+  cl_age90: number;
   tx_std: number;
 }

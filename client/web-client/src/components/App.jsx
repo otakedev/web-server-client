@@ -15,48 +15,76 @@ import {
 import useGeolocation from 'react-hook-geolocation';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
+import { ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { HomePage, ErrorPage, GeoPage } from './pages';
 import { mapNameRegionToCode } from '../res/mapNameRegionToCode';
+import { ThemePicker } from './ThemePicker';
+import { ContactForm } from './pages/Contact';
+import getTheme from '../theme';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    textAlign: 'center',
-    flexGrow: 1,
-    backgroundColor: theme.palette.primary.default,
-  },
-
-  link: {
-    padding: '1rem',
-    '& a': {
-      color: theme.palette.text.light,
+function useStyles(theme) {
+  return makeStyles(() => ({
+    root: {
+      textAlign: 'center',
+      flexGrow: 1,
+      backgroundColor: theme.palette.primary.navbar,
+      display: 'flex',
     },
-  },
 
-  IconButton: {
-    marginRight: '2rem',
-    cursor: 'default',
-  },
+    link: {
+      padding: '1rem',
+      '& a': {
+        color: theme.palette.primary.link,
+      },
+    },
 
-  PointerWith: {
-    stroke: 'white',
-    strokeWidth: '1',
-  },
+    IconButton: {
+      marginRight: '2rem',
+      cursor: 'default',
+    },
 
-  Container: {
-    display: 'flex',
-  },
+    PointerWith: {
+      stroke: 'white',
+      strokeWidth: '1',
+      color: theme.palette.primary.navbar,
+    },
 
-}));
+    Container: {
+      display: 'flex',
+    },
+
+  }));
+}
 let nbGeolocateClicks = 0;
 
 export const App = () => {
   const { data: numbercaseconfirm, loading, refetch } = useGet({ path: 'api/v0/case-confirm' });
+  const initialThemeFromStorage = JSON.parse(localStorage.getItem('reactAppTheme'));
   const [currentRegion, setcurrentRegion] = useState(null);
   const [open, setOpen] = React.useState(true);
-  const classes = useStyles();
 
   const MAX_PRINTABLE_NUMBER = 99999999;
   const INTERVAL_TIME = 60000;
+  let initialColor;
+  let initialDarkState;
+  let initialTheme;
+  if (initialThemeFromStorage !== null) {
+    initialColor = initialThemeFromStorage.color;
+    initialDarkState = initialThemeFromStorage.isDark;
+    initialTheme = getTheme(initialColor, initialDarkState);
+  } else {
+    initialColor = 'blue';
+    initialDarkState = false;
+    initialTheme = getTheme(initialColor, initialDarkState);
+  }
+
+  const [currentTheme, setCurrentTheme] = React.useState(initialTheme);
+  const classes = useStyles(initialTheme)();
+
+  const changeCurrentTheme = (theme) => {
+    setCurrentTheme(theme);
+  };
 
   const geolocation = useGeolocation();
   let GeoLocPrefUser = localStorage.getItem('GeoLocFilter');
@@ -85,16 +113,16 @@ export const App = () => {
 
   let badge;
   if (loading) {
-    badge = <Badge badgeContent="Loading" color="secondary"><LocalHospitalIcon /></Badge>;
+    badge = <Badge badgeContent="Loading" color="primary"><LocalHospitalIcon /></Badge>;
   } else {
     badge = <Badge badgeContent={numbercaseconfirm} max={MAX_PRINTABLE_NUMBER} color="secondary"><LocalHospitalIcon /></Badge>;
   }
 
   let pointer;
   if (currentRegion) {
-    pointer = <RoomIcon color="secondary" className={classes.PointerWith} />;
-  } else {
     pointer = <RoomIcon />;
+  } else {
+    pointer = <RoomIcon className={classes.PointerWith} />;
   }
 
   const Geolocate = () => {
@@ -141,45 +169,56 @@ export const App = () => {
         />
       ) : null}
       <BrowserRouter>
+        <ThemeProvider theme={currentTheme}>
+          <CssBaseline />
 
-        <AppBar position="static" className={classes.root}>
-          <Toolbar>
-            <Typography variant="h6" className={classes.link}>
-              <Link to="/graph">Graphes</Link>
-            </Typography>
-            <Typography variant="h6" className={classes.link}>
-              <Link to="/map">Carte par régions</Link>
-            </Typography>
-            <Tooltip title="Nombre de cas hospitalisés en France">
-              <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
-                {badge}
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Utiliser la géolocalisation">
-              <IconButton aria-label="icon button" onClick={() => Geolocate()} color="inherit" className={classes.IconButton}>
-                {pointer}
-              </IconButton>
-            </Tooltip>
-          </Toolbar>
-        </AppBar>
+          <AppBar position="static" className={classes.root}>
+            <Toolbar>
+              <Typography variant="h6" className={classes.link}>
+                <Link to="/graph">Graphes</Link>
+              </Typography>
+              <Typography variant="h6" className={classes.link}>
+                <Link to="/map">Carte par régions</Link>
+              </Typography>
+              <Typography variant="h6" className={classes.link}>
+                <Link to="/contact">Contact</Link>
+              </Typography>
+              <Tooltip title="Nombre de cas hospitalisés en France">
+                <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
+                  {badge}
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Utiliser la géolocalisation">
+                <IconButton aria-label="icon button" onClick={() => Geolocate()} color="inherit" className={classes.IconButton}>
+                  {pointer}
+                </IconButton>
+              </Tooltip>
+            </Toolbar>
+            <ThemePicker
+              initialDarkState={initialDarkState}
+              initialColor={initialColor}
+              changeThemeCallback={changeCurrentTheme}
+            />
+          </AppBar>
 
-        <Switch>
-          <Route exact path="/">
-            <Redirect to="/graph" />
-          </Route>
-          <Route
-            path="/graph"
-            render={() => (
-              <HomePage geolocalisation={currentRegion} />
-            )}
-          />
-          <Route path="/map" component={GeoPage} />
-          <Route exact path="/error" component={ErrorPage} />
-          <Route exact path="*">
-            <Redirect to="/error" />
-          </Route>
-        </Switch>
-
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/graph" />
+            </Route>
+            <Route
+              path="/graph"
+              render={() => (
+                <HomePage geolocalisation={currentRegion} />
+              )}
+            />
+            <Route path="/map" component={GeoPage} />
+            <Route path="/contact" component={ContactForm} />
+            <Route exact path="/error" component={ErrorPage} />
+            <Route exact path="*">
+              <Redirect to="/error" />
+            </Route>
+          </Switch>
+        </ThemeProvider>
       </BrowserRouter>
     </div>
 

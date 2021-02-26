@@ -1,9 +1,9 @@
-import { Controller, forwardRef, Get, Inject, Param } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { FiltersService } from './filters.service';
 
 @Controller()
 export class FiltersController {
-  constructor(private readonly filtersService: FiltersService) {}
+  constructor(private readonly filtersService: FiltersService) { }
 
   @Get()
   getHello(): string {
