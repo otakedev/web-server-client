@@ -1,22 +1,22 @@
 import {
   AppBar,
-  makeStyles, Tooltip, IconButton,
-  Badge, Typography,
+
+  Badge, IconButton, makeStyles, Tooltip,
+  Typography,
 } from '@material-ui/core';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import { useGet } from 'restful-react';
-import React, { useEffect, useState } from 'react';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter, Link, Redirect, Route, Switch,
 } from 'react-router-dom';
-import { ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { HomePage, ErrorPage, GeoPage } from './pages';
-import { ThemePicker } from './ThemePicker';
+import { useGet } from 'restful-react';
+import { getTheme, ThemePicker } from './theme';
+import { ErrorPage, GeoPage, HomePage } from './pages';
 import { ContactForm } from './pages/Contact';
-import getTheme from '../theme';
-import { Geolocation } from './Geolocation';
+import { Geolocation } from './elements';
 
 function useStyles(theme) {
   return makeStyles(() => ({

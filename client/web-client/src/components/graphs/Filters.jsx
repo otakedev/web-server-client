@@ -9,7 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { mapIdToRegion } from '../res/mapCodeToNameRegion';
+import { mapIdToRegion } from '../../res/mapCodeToNameRegion';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Filters = ({
-  classAgesProps, setData, geolocation,
+  classAgesProps, refetch, geolocation,
 }) => {
   const [classAges, setClassAges] = useState(classAgesProps);
   const [currentRegion, setCurrentRegion] = useState('00');
@@ -70,17 +70,15 @@ export const Filters = ({
     data.since.setHours(0, 0, 0);
     data.to.setHours(0, 0, 0);
 
-    let url;
-    if (currentRegion === '00') {
-      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.classAge}&since=${data.since}&to=${data.to}`;
-    } else {
-      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.filteredIncidences}&since=${data.since}&to=${data.to}&reg=${currentRegion}`;
-    }
-    fetch(url)
-      .then((response) => response.json())
-      .then((filteredIncidences) => {
-        setData(filteredIncidences);
-      });
+    refetch({
+      queryParams:
+      {
+        ...(currentRegion !== '00') && { reg: currentRegion },
+        since: `${data.since}`,
+        to: `${data.to}`,
+        class_age: `${data.classAge}`,
+      },
+    });
   };
 
   return (
@@ -174,6 +172,7 @@ export const Filters = ({
 Filters.defaultProps = {
   classAgesProps: [],
   geolocation: null,
+  refetch: () => { },
 };
 
 Filters.propTypes = {
@@ -181,12 +180,5 @@ Filters.propTypes = {
     PropTypes.number,
   ),
   geolocation: PropTypes.number,
-};
-
-Filters.defaultProps = {
-  setData: PropTypes.func,
-};
-
-Filters.propTypes = {
-  setData: PropTypes.func,
+  refetch: PropTypes.func,
 };

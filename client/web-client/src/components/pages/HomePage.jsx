@@ -1,17 +1,17 @@
 import {
   AppBar,
+  CircularProgress,
   makeStyles,
   Typography,
 } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
-import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {
   Link, Redirect, Route, Switch, useRouteMatch,
 } from 'react-router-dom';
 import { useGet } from 'restful-react';
-import PropTypes from 'prop-types';
-import { ChartIncidences, TableIncidences } from '../graphs';
-import { Filters } from '../Filters';
+import { ChartIncidences, TableIncidences, Filters } from '../graphs';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,32 +33,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const HomePage = ({ geolocation }) => {
-  const { data: classAges } = useGet({ path: '/api/v0/incidences/filters/class-age' });
-  const [data, setData] = useState(undefined);
-
-  useEffect(() => {
-    const to = new Date();
-    const since = new Date();
-    since.setMonth(to.getMonth() - 1);
-    since.setHours(0, 0, 0);
-    to.setHours(0, 0, 0);
-    let url;
-    if (geolocation) {
-      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?since=${since}&to=${to}&reg=${geolocation}`;
-    } else {
-      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?since=${since}&to=${to}`;
-    }
-    fetch(url)
-      .then((response) => response.json())
-      .then((d) => {
-        setData(d);
-      });
-  }, [geolocation]);
-
+export function HomePage({ geolocation }) {
   const classes = useStyles();
-
   const { path, url } = useRouteMatch();
+
+  const { data: classAges } = useGet({ path: '/api/v0/incidences/filters/class-age' });
+
+  const to = new Date();
+  const since = new Date();
+  since.setMonth(to.getMonth() - 1);
+  since.setHours(0, 0, 0);
+  to.setHours(0, 0, 0);
+
+  const { data, loading, refetch } = useGet({
+    path: '/api/v0/incidences',
+    queryParams: {
+      ...(geolocation) && { reg: geolocation },
+      since: `${since}`,
+      to: `${to}`,
+    },
+  });
+
   return (
     <div className={classes.root}>
 
@@ -77,7 +72,7 @@ export const HomePage = ({ geolocation }) => {
           <Filters
             geolocation={geolocation}
             classAgesProps={classAges}
-            setData={setData}
+            refetch={refetch}
           />
         ) : null}
       </div>
@@ -86,17 +81,17 @@ export const HomePage = ({ geolocation }) => {
           <Redirect to={`${url}/chart`} />
         </Route>
         <Route exact path={`${path}/table`}>
-          {data ? <TableIncidences data={data} /> : null}
+          {loading ? <CircularProgress /> : <TableIncidences data={data} /> }
         </Route>
         <Route exact path={`${path}/chart`}>
-          {data ? <ChartIncidences data={data} /> : null}
+          {loading ? <CircularProgress /> : <ChartIncidences data={data} /> }
         </Route>
         <Redirect to="/error" />
       </Switch>
 
     </div>
   );
-};
+}
 
 HomePage.propTypes = {
   geolocation: PropTypes.number,

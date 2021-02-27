@@ -2,14 +2,16 @@
 
 import React from "react";
 import { Get, GetProps, useGet, UseGetProps, Mutate, MutateProps, useMutate, UseMutateProps } from "restful-react";
-export const SPEC_VERSION = "1.0"; 
+export const SPEC_VERSION = "1.0";
+// tslint:disable-next-line:no-empty-interface
+export interface ContactInput { }
 
 export type AppControllerGetHelloProps = Omit<GetProps<void, unknown, void, void>, "path">;
 
 export const AppControllerGetHello = (props: AppControllerGetHelloProps) => (
   <Get<void, unknown, void, void>
     path={`/api/v0`}
-    
+
     {...props}
   />
 );
@@ -24,7 +26,7 @@ export type IncidencesControllerGetIncidencesProps = Omit<GetProps<void, unknown
 export const IncidencesControllerGetIncidences = (props: IncidencesControllerGetIncidencesProps) => (
   <Get<void, unknown, void, void>
     path={`/api/v0/incidences`}
-    
+
     {...props}
   />
 );
@@ -40,7 +42,7 @@ export const IncidencesControllerUploadFile = (props: IncidencesControllerUpload
   <Mutate<void, unknown, void, void, void>
     verb="POST"
     path={`/api/v0/incidences`}
-    
+
     {...props}
   />
 );
@@ -55,7 +57,7 @@ export type IncidencesControllerGetIncidencesByRegionProps = Omit<GetProps<void,
 export const IncidencesControllerGetIncidencesByRegion = (props: IncidencesControllerGetIncidencesByRegionProps) => (
   <Get<void, unknown, void, void>
     path={`/api/v0/incidences/regions`}
-    
+
     {...props}
   />
 );
@@ -65,27 +67,12 @@ export type UseIncidencesControllerGetIncidencesByRegionProps = Omit<UseGetProps
 export const useIncidencesControllerGetIncidencesByRegion = (props: UseIncidencesControllerGetIncidencesByRegionProps) => useGet<void, unknown, void, void>(`/api/v0/incidences/regions`, props);
 
 
-export type FiltersControllerGetHelloProps = Omit<GetProps<void, unknown, void, void>, "path">;
-
-export const FiltersControllerGetHello = (props: FiltersControllerGetHelloProps) => (
-  <Get<void, unknown, void, void>
-    path={`/api/v0/incidences/filters`}
-    
-    {...props}
-  />
-);
-
-export type UseFiltersControllerGetHelloProps = Omit<UseGetProps<void, unknown, void, void>, "path">;
-
-export const useFiltersControllerGetHello = (props: UseFiltersControllerGetHelloProps) => useGet<void, unknown, void, void>(`/api/v0/incidences/filters`, props);
-
-
 export type FiltersControllerGetClassAgesProps = Omit<GetProps<void, unknown, void, void>, "path">;
 
 export const FiltersControllerGetClassAges = (props: FiltersControllerGetClassAgesProps) => (
   <Get<void, unknown, void, void>
     path={`/api/v0/incidences/filters/class-age`}
-    
+
     {...props}
   />
 );
@@ -100,7 +87,7 @@ export type CaseConfirmControllerGetCaseConfirmProps = Omit<GetProps<void, unkno
 export const CaseConfirmControllerGetCaseConfirm = (props: CaseConfirmControllerGetCaseConfirmProps) => (
   <Get<void, unknown, void, void>
     path={`/api/v0/case-confirm`}
-    
+
     {...props}
   />
 );
@@ -109,3 +96,18 @@ export type UseCaseConfirmControllerGetCaseConfirmProps = Omit<UseGetProps<void,
 
 export const useCaseConfirmControllerGetCaseConfirm = (props: UseCaseConfirmControllerGetCaseConfirmProps) => useGet<void, unknown, void, void>(`/api/v0/case-confirm`, props);
 
+
+export type ContactControllerContactProps = Omit<MutateProps<void, unknown, void, ContactInput, void>, "path" | "verb">;
+
+export const ContactControllerContact = (props: ContactControllerContactProps) => (
+  <Mutate<void, unknown, void, ContactInput, void>
+    verb="POST"
+    path={`/api/v0/contact`}
+
+    {...props}
+  />
+);
+
+export type UseContactControllerContactProps = Omit<UseMutateProps<void, unknown, void, ContactInput, void>, "path" | "verb">;
+
+export const useContactControllerContact = (props: UseContactControllerContactProps) => useMutate<void, unknown, void, ContactInput, void>("POST", `/api/v0/contact`, props);

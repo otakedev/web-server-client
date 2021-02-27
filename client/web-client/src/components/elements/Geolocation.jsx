@@ -5,7 +5,7 @@ import useGeolocation from 'react-hook-geolocation';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
-import { mapNameRegionToCode } from '../res/mapNameRegionToCode';
+import { mapNameRegionToCode } from '../../res/mapNameRegionToCode';
 
 const useStyles = makeStyles((theme) => ({
 

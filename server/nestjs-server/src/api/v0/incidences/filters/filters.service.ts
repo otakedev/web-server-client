@@ -10,10 +10,6 @@ export class FiltersService {
     private readonly incidenceModel: Model<IncidenceDocument>,
   ) { }
 
-  getHello(): string {
-    return 'Hello World!';
-  }
-
   async getClassAges() {
     return this.incidenceModel.find().distinct('cl_age90').exec();
   }

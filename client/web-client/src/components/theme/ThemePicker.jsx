@@ -15,7 +15,7 @@ import {
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PropTypes from 'prop-types';
-import getTheme from '../theme';
+import { getTheme } from './custom_theme';
 
 function useStyles(theme) {
   return makeStyles(() => ({
