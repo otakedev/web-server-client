@@ -38,7 +38,7 @@ export class IncidencesService {
         $lt: new Date(query.to)
       };
     }
-
+    
     if (query.reg) {
       filters['reg'] = query.reg;
     }
@@ -98,11 +98,6 @@ export class IncidencesService {
 
   async findWithFilters(query): Promise<IncidenceDocument[]> {
     const filters = this.createFilters(query);
-
-
-
-    
-
     return this.incidenceModel.find(filters).exec();
   }
 
