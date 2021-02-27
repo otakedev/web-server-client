@@ -33,9 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const HomePage = ({ geolocalisation }) => {
+export const HomePage = ({ geolocation }) => {
   const { data: classAges } = useGet({ path: '/api/v0/incidences/filters/class-age' });
-
   const [data, setData] = useState(undefined);
 
   useEffect(() => {
@@ -44,20 +43,18 @@ export const HomePage = ({ geolocalisation }) => {
     since.setMonth(to.getMonth() - 1);
     since.setHours(0, 0, 0);
     to.setHours(0, 0, 0);
-    if (geolocalisation) {
-      fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?since=${since}&to=${to}&reg=${geolocalisation}`)
-        .then((response) => response.json())
-        .then((d) => {
-          setData(d);
-        });
+    let url;
+    if (geolocation) {
+      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?since=${since}&to=${to}&reg=${geolocation}`;
     } else {
-      fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?since=${since}&to=${to}`)
-        .then((response) => response.json())
-        .then((d) => {
-          setData(d);
-        });
+      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?since=${since}&to=${to}`;
     }
-  }, [geolocalisation]);
+    fetch(url)
+      .then((response) => response.json())
+      .then((d) => {
+        setData(d);
+      });
+  }, [geolocation]);
 
   const classes = useStyles();
 
@@ -78,7 +75,7 @@ export const HomePage = ({ geolocalisation }) => {
       <div className={classes.filters}>
         {classAges ? (
           <Filters
-            geolocalisation={geolocalisation}
+            geolocation={geolocation}
             classAgesProps={classAges}
             setData={setData}
           />
@@ -102,9 +99,9 @@ export const HomePage = ({ geolocalisation }) => {
 };
 
 HomePage.propTypes = {
-  geolocalisation: PropTypes.number,
+  geolocation: PropTypes.number,
 };
 
 HomePage.defaultProps = {
-  geolocalisation: null,
+  geolocation: null,
 };

@@ -24,7 +24,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Filters = ({ classAgesProps, setData, geolocalisation }) => {
+export const Filters = ({
+  classAgesProps, setData, geolocation,
+}) => {
   const [classAges, setClassAges] = useState(classAgesProps);
   const [currentReg, setCurrentReg] = useState('00');
 
@@ -33,10 +35,12 @@ export const Filters = ({ classAgesProps, setData, geolocalisation }) => {
   } = useForm();
 
   useEffect(() => {
-    if (geolocalisation) {
-      setCurrentReg(geolocalisation.toString());
+    if (geolocation) {
+      setCurrentReg(geolocation.toString());
+    } else {
+      setCurrentReg('00');
     }
-  }, [geolocalisation]);
+  }, [geolocation]);
 
   const classes = useStyles();
   const sinceDate = new Date();
@@ -67,19 +71,18 @@ export const Filters = ({ classAgesProps, setData, geolocalisation }) => {
   const onSubmit = (data) => {
     data.since.setHours(0, 0, 0);
     data.to.setHours(0, 0, 0);
+
+    let url;
     if (currentReg === '00') {
-      fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.classAge}&since=${data.since}&to=${data.to}`)
-        .then((response) => response.json())
-        .then((classAge) => {
-          setData(classAge);
-        });
+      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.classAge}&since=${data.since}&to=${data.to}`;
     } else {
-      fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.classAge}&since=${data.since}&to=${data.to}&reg=${currentReg}`)
-        .then((response) => response.json())
-        .then((classAge) => {
-          setData(classAge);
-        });
+      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.filteredIncidences}&since=${data.since}&to=${data.to}&reg=${currentReg}`;
     }
+    fetch(url)
+      .then((response) => response.json())
+      .then((filteredIncidences) => {
+        setData(filteredIncidences);
+      });
   };
 
   return (
@@ -172,14 +175,14 @@ export const Filters = ({ classAgesProps, setData, geolocalisation }) => {
 
 Filters.defaultProps = {
   classAgesProps: [],
-  geolocalisation: null,
+  geolocation: null,
 };
 
 Filters.propTypes = {
   classAgesProps: PropTypes.arrayOf(
     PropTypes.number,
   ),
-  geolocalisation: PropTypes.number,
+  geolocation: PropTypes.number,
 };
 
 Filters.defaultProps = {
