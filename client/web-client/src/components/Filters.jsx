@@ -28,17 +28,17 @@ export const Filters = ({
   classAgesProps, setData, geolocation,
 }) => {
   const [classAges, setClassAges] = useState(classAgesProps);
-  const [currentReg, setCurrentReg] = useState('00');
-
+  const [currentRegion, setCurrentRegion] = useState('00');
+  const codeRegions = ['00', '01', '02', '03', '04', '06', '11', '24', '27', '28', '32', '44', '52', '53', '75', '76', '84', '93', '94', '975', '977', '978'];
   const {
     handleSubmit, control,
   } = useForm();
 
   useEffect(() => {
     if (geolocation) {
-      setCurrentReg(geolocation.toString());
+      setCurrentRegion(geolocation.toString());
     } else {
-      setCurrentReg('00');
+      setCurrentRegion('00');
     }
   }, [geolocation]);
 
@@ -46,14 +46,12 @@ export const Filters = ({
   const sinceDate = new Date();
   sinceDate.setMonth(sinceDate.getMonth() - 1);
 
-  const codeRegions = ['00', '01', '02', '03', '04', '06', '11', '24', '27', '28', '32', '44', '52', '53', '75', '76', '84', '93', '94', '975', '977', '978'];
-
   const handleChange = (event) => {
     setClassAges(event.target.value);
   };
 
   const handleChangeRegion = (event) => {
-    setCurrentReg(event.target.value);
+    setCurrentRegion(event.target.value);
   };
 
   const [selectedSinceDate, setSelectedSinceDate] = React.useState(new Date());
@@ -73,10 +71,10 @@ export const Filters = ({
     data.to.setHours(0, 0, 0);
 
     let url;
-    if (currentReg === '00') {
+    if (currentRegion === '00') {
       url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.classAge}&since=${data.since}&to=${data.to}`;
     } else {
-      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.filteredIncidences}&since=${data.since}&to=${data.to}&reg=${currentReg}`;
+      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.filteredIncidences}&since=${data.since}&to=${data.to}&reg=${currentRegion}`;
     }
     fetch(url)
       .then((response) => response.json())
@@ -118,7 +116,7 @@ export const Filters = ({
             ) => (
               <Select
                 name={name}
-                value={currentReg}
+                value={currentRegion}
                 onChange={(e) => handleChangeRegion(e)}
               >
                 {codeRegions.map((code) => (

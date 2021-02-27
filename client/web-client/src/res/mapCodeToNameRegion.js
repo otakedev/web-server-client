@@ -1,4 +1,5 @@
 export const mapIdToRegion = {
+  '00': 'Toutes',
   11: 'Île-de-France',
   '01': 'Guadeloupe',
   '02': 'Martinique',

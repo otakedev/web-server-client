@@ -6,7 +6,6 @@ import {
 import Toolbar from '@material-ui/core/Toolbar';
 import { useGet } from 'restful-react';
 import React, { useEffect, useState } from 'react';
-
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import {
   BrowserRouter, Link, Redirect, Route, Switch,
@@ -54,9 +53,9 @@ function useStyles(theme) {
 }
 
 export const App = () => {
-  const { data: numbercaseconfirm, loading, refetch } = useGet({ path: 'api/v0/case-confirm' });
+  const { data: numberCaseConfirm, loading, refetch } = useGet({ path: 'api/v0/case-confirm' });
   const initialThemeFromStorage = JSON.parse(localStorage.getItem('reactAppTheme'));
-  const [currentRegion, setcurrentRegion] = useState(null);
+  const [currentRegion, setCurrentRegion] = useState(null);
 
   const MAX_PRINTABLE_NUMBER = 99999999;
   const INTERVAL_TIME = 60000;
@@ -92,7 +91,7 @@ export const App = () => {
   if (loading) {
     badge = <Badge badgeContent="Loading" color="primary"><LocalHospitalIcon /></Badge>;
   } else {
-    badge = <Badge badgeContent={numbercaseconfirm} max={MAX_PRINTABLE_NUMBER} color="secondary"><LocalHospitalIcon /></Badge>;
+    badge = <Badge badgeContent={numberCaseConfirm} max={MAX_PRINTABLE_NUMBER} color="secondary"><LocalHospitalIcon /></Badge>;
   }
 
   return (
@@ -115,7 +114,7 @@ export const App = () => {
                 {badge}
               </IconButton>
             </Tooltip>
-            <Geolocation setGeoFunction={setcurrentRegion} theme={currentTheme} />
+            <Geolocation setGeoFunction={setCurrentRegion} theme={currentTheme} />
           </Toolbar>
           <ThemePicker
             initialDarkState={initialDarkState}

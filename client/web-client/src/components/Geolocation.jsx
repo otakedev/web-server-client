@@ -23,7 +23,7 @@ export const Geolocation = ({ setGeoFunction }) => {
   const geolocation = useGeolocation();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const [currentRegion, setcurrentRegion] = useState(null);
+  const [currentRegion, setCurrentRegion] = useState(null);
   let pointer;
   let GeoLocPrefUser = localStorage.getItem('GeoLocFilter');
 
@@ -46,7 +46,7 @@ export const Geolocation = ({ setGeoFunction }) => {
     if (geolocation.longitude && geolocation.latitude && GeoLocPrefUser) {
       fetch(`https://api-adresse.data.gouv.fr/reverse/?lon=${geolocation.longitude.toString()}&lat=${geolocation.latitude.toString()}&type=street`).then((response) => response.json()).then((data) => {
         const codeReg = getCodeFromRegionName(data.features[0].properties.context.split(',')[2].trim());
-        setcurrentRegion(codeReg);
+        setCurrentRegion(codeReg);
         setGeoFunction(codeReg);
       });
     }
@@ -58,14 +58,14 @@ export const Geolocation = ({ setGeoFunction }) => {
       if (geolocation.longitude && geolocation.latitude) {
         fetch(`https://api-adresse.data.gouv.fr/reverse/?lon=${geolocation.longitude.toString()}&lat=${geolocation.latitude.toString()}&type=street`).then((response) => response.json()).then((data) => {
           const codeReg = getCodeFromRegionName(data.features[0].properties.context.split(',')[2].trim());
-          setcurrentRegion(codeReg);
+          setCurrentRegion(codeReg);
           setGeoFunction(codeReg);
         });
       }
       localStorage.setItem('GeoLocFilter', true);
     } else {
       localStorage.setItem('GeoLocFilter', false);
-      setcurrentRegion(null);
+      setCurrentRegion(null);
       setGeoFunction(null);
     }
   };
