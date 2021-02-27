@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import {IncidenceInput, IncidenceRegionModel} from './dto/incidence-input.model';
+import { IncidenceInput, IncidenceRegionModel } from './dto/incidence-input.model';
 import { IncidenceDocument } from './incidence.schema';
 
 @Injectable()
@@ -49,30 +49,17 @@ export class IncidencesService {
   findAllByRegion(limit = 1): Promise<IncidenceRegionModel[]> {
     return this.incidenceModel.aggregate([
       {
-        '$group': {
-          '_id': {
-            'jour': '$jour',
-            'reg': '$reg'
-          },
-          'tx_std': {
-            '$sum': '$tx_std'
-          },
-          'dateCount': {
-            '$sum': 1
-          }
+        '$match': {
+          'cl_age90': 0
         }
       }, {
         '$group': {
-          '_id': '$_id.jour',
+          '_id': '$jour',
           'regions': {
             '$push': {
-              'reg': '$_id.reg',
-              'tx_std': '$tx_std',
-              'count': '$dateCount'
+              'reg': '$reg',
+              'tx_std': '$tx_std'
             }
-          },
-          'count': {
-            '$sum': '$dateCount'
           }
         }
       }, {

@@ -8,7 +8,7 @@ import { mapIdToRegion } from '../../res/mapCodeToNameRegion';
 const geoUrl = '/assets/gadm36_FRA_1.json';
 
 const colorScale = scaleQuantize()
-  .domain([1, 1000])
+  .domain([1, 100])
   .range([
     '#ffedea',
     '#ffcec5',
