@@ -3,32 +3,9 @@ import PropTypes, { number } from 'prop-types';
 import {
   ComposableMap, Geographies, Geography,
 } from 'react-simple-maps';
+import { mapIdToRegion } from '../../res/mapCodeToNameRegion';
 
 const geoUrl = '/assets/gadm36_FRA_1.json';
-
-const mapIdToRegion = {
-  11: 'Île-de-France',
-  '01': 'Guadeloupe',
-  '02': 'Martinique',
-  '03': 'Guyane',
-  '04': 'Réunion',
-  '06': 'Mayotte',
-  24: 'Centre-Val de Loire',
-  27: 'Bourgogne-Franche-Comté',
-  28: 'Normandie',
-  32: 'Hauts-de-France',
-  44: 'Grand Est',
-  52: 'Pays de la Loire',
-  53: 'Bretagne',
-  75: 'Nouvelle-Aquitaine',
-  76: 'Occitanie',
-  84: 'Auvergne-Rhône-Alpes',
-  93: 'Provence-Alpes-Côte d\'Azur',
-  94: 'Corse',
-  975: 'Miquelon-Langlade et Saint Pierre',
-  977: 'Saint-Barthélemy',
-  978: 'Saint-Martin',
-};
 
 const colorScale = scaleQuantize()
   .domain([1, 100])

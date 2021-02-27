@@ -1,6 +1,6 @@
 import { Controller, useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { mapIdToRegion } from '../res/mapCodeToNameRegion';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -23,12 +24,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Filters = ({ classAgesProps, setData }) => {
+export const Filters = ({
+  classAgesProps, setData, geolocation,
+}) => {
+  const [classAges, setClassAges] = useState(classAgesProps);
+  const [currentRegion, setCurrentRegion] = useState('00');
+  const codeRegions = ['00', '01', '02', '03', '04', '06', '11', '24', '27', '28', '32', '44', '52', '53', '75', '76', '84', '93', '94', '975', '977', '978'];
   const {
     handleSubmit, control,
   } = useForm();
 
-  const [classAges, setClassAges] = useState(classAgesProps);
+  useEffect(() => {
+    if (geolocation) {
+      setCurrentRegion(geolocation.toString());
+    } else {
+      setCurrentRegion('00');
+    }
+  }, [geolocation]);
 
   const classes = useStyles();
   const sinceDate = new Date();
@@ -36,6 +48,10 @@ export const Filters = ({ classAgesProps, setData }) => {
 
   const handleChange = (event) => {
     setClassAges(event.target.value);
+  };
+
+  const handleChangeRegion = (event) => {
+    setCurrentRegion(event.target.value);
   };
 
   const [selectedSinceDate, setSelectedSinceDate] = React.useState(new Date());
@@ -54,10 +70,16 @@ export const Filters = ({ classAgesProps, setData }) => {
     data.since.setHours(0, 0, 0);
     data.to.setHours(0, 0, 0);
 
-    fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.classAge}&since=${data.since}&to=${data.to}`)
+    let url;
+    if (currentRegion === '00') {
+      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.classAge}&since=${data.since}&to=${data.to}`;
+    } else {
+      url = `${process.env.REACT_APP_API_ENDPOINT}/api/v0/incidences?class_age=${data.filteredIncidences}&since=${data.since}&to=${data.to}&reg=${currentRegion}`;
+    }
+    fetch(url)
       .then((response) => response.json())
-      .then((classAge) => {
-        setData(classAge);
+      .then((filteredIncidences) => {
+        setData(filteredIncidences);
       });
   };
 
@@ -79,6 +101,31 @@ export const Filters = ({ classAgesProps, setData }) => {
               <MenuItem key={classAge} value={classAge}>{classAge}</MenuItem>
             ))}
           </Controller>
+        </FormControl>
+
+        <FormControl className={classes.formControl}>
+          <InputLabel id="reg-label">Regions</InputLabel>
+          <Controller
+            control={control}
+            id="reg"
+            name="reg"
+            render={(
+              {
+                name,
+              },
+            ) => (
+              <Select
+                name={name}
+                value={currentRegion}
+                onChange={(e) => handleChangeRegion(e)}
+              >
+                {codeRegions.map((code) => (
+                  <MenuItem key={code} value={code}>{mapIdToRegion[code]}</MenuItem>
+                ))}
+              </Select>
+            )}
+          />
+
         </FormControl>
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -126,12 +173,14 @@ export const Filters = ({ classAgesProps, setData }) => {
 
 Filters.defaultProps = {
   classAgesProps: [],
+  geolocation: null,
 };
 
 Filters.propTypes = {
   classAgesProps: PropTypes.arrayOf(
     PropTypes.number,
   ),
+  geolocation: PropTypes.number,
 };
 
 Filters.defaultProps = {

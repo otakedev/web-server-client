@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import {
   AppBar,
   makeStyles, Tooltip, IconButton,
@@ -6,16 +5,18 @@ import {
 } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import { useGet } from 'restful-react';
+import React, { useEffect, useState } from 'react';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import {
   BrowserRouter, Link, Redirect, Route, Switch,
 } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { ThemePicker } from './ThemePicker';
 import { HomePage, ErrorPage, GeoPage } from './pages';
+import { ThemePicker } from './ThemePicker';
 import { ContactForm } from './pages/Contact';
 import getTheme from '../theme';
+import { Geolocation } from './Geolocation';
 
 function useStyles(theme) {
   return makeStyles(() => ({
@@ -38,14 +39,26 @@ function useStyles(theme) {
       cursor: 'default',
     },
 
+    PointerWith: {
+      stroke: 'white',
+      strokeWidth: '1',
+      color: theme.palette.primary.navbar,
+    },
+
+    Container: {
+      display: 'flex',
+    },
+
   }));
 }
 
 export const App = () => {
+  const { data: numberCaseConfirm, loading, refetch } = useGet({ path: 'api/v0/case-confirm' });
   const initialThemeFromStorage = JSON.parse(localStorage.getItem('reactAppTheme'));
+  const [currentRegion, setCurrentRegion] = useState(null);
+
   const MAX_PRINTABLE_NUMBER = 99999999;
   const INTERVAL_TIME = 60000;
-  const { data: numbercaseconfirm, loading, refetch } = useGet({ path: 'api/v0/case-confirm' });
   let initialColor;
   let initialDarkState;
   let initialTheme;
@@ -70,14 +83,15 @@ export const App = () => {
     const interval = setInterval(() => {
       refetch();
     }, INTERVAL_TIME);
+
     return () => clearInterval(interval);
   }, []);
 
   let badge;
   if (loading) {
-    badge = <Badge badgeContent="Loading" color="secondary"><LocalHospitalIcon /></Badge>;
+    badge = <Badge badgeContent="Loading" color="primary"><LocalHospitalIcon /></Badge>;
   } else {
-    badge = <Badge badgeContent={numbercaseconfirm} max={MAX_PRINTABLE_NUMBER} color="secondary"><LocalHospitalIcon /></Badge>;
+    badge = <Badge badgeContent={numberCaseConfirm} max={MAX_PRINTABLE_NUMBER} color="secondary"><LocalHospitalIcon /></Badge>;
   }
 
   return (
@@ -100,18 +114,25 @@ export const App = () => {
                 {badge}
               </IconButton>
             </Tooltip>
-            <ThemePicker
-              initialDarkState={initialDarkState}
-              initialColor={initialColor}
-              changeThemeCallback={changeCurrentTheme}
-            />
+            <Geolocation setGeoFunction={setCurrentRegion} theme={currentTheme} />
           </Toolbar>
+          <ThemePicker
+            initialDarkState={initialDarkState}
+            initialColor={initialColor}
+            changeThemeCallback={changeCurrentTheme}
+          />
         </AppBar>
+
         <Switch>
           <Route exact path="/">
             <Redirect to="/graph" />
           </Route>
-          <Route path="/graph" component={HomePage} />
+          <Route
+            path="/graph"
+            render={() => (
+              <HomePage geolocation={currentRegion} />
+            )}
+          />
           <Route path="/map" component={GeoPage} />
           <Route path="/contact" component={ContactForm} />
           <Route exact path="/error" component={ErrorPage} />

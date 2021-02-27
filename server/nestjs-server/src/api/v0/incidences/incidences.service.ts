@@ -38,6 +38,11 @@ export class IncidencesService {
         $lt: new Date(query.to)
       };
     }
+    
+    if (query.reg) {
+      filters['reg'] = query.reg;
+    }
+
     return filters;
   }
 
@@ -80,7 +85,6 @@ export class IncidencesService {
 
   async findWithFilters(query): Promise<IncidenceDocument[]> {
     const filters = this.createFilters(query);
-
     return this.incidenceModel.find(filters).exec();
   }
 
@@ -111,11 +115,11 @@ export class IncidencesService {
             '$sum': '$pop_f'
           },
           'pop_h': {
-            '$sum': '$pop_f'
+            '$sum': '$pop_h'
           },
           'pop': {
-            '$sum': '$pop_f'
-          }
+            '$sum': '$pop'
+          },
         }
       }, {
         '$sort': {
@@ -131,10 +135,15 @@ export class IncidencesService {
           'P': '$P',
           'pop_f': '$pop_f',
           'pop_h': '$pop_h',
-          'pop': '$pop'
+          'pop': '$pop',
         }
       }
     ]
+
+    if (query.reg) {
+      pipeline[1]['$group']['reg'] = {'$first':'$reg'};
+      pipeline[3]['$project']['reg'] = '$reg';
+    }
 
     const data = await this.incidenceModel.aggregate(pipeline).exec();
 
