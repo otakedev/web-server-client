@@ -1,9 +1,13 @@
 import {
   Button,
   makeStyles,
+
   TextField,
 } from '@material-ui/core';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useMutate } from 'restful-react';
+import { Alert } from '../elements';
 
 const useStyles = makeStyles((theme) => ({
   contact_root: {
@@ -28,25 +32,30 @@ export function ContactForm() {
     register, handleSubmit, errors,
   } = useForm();
 
-  const onSubmit = (data) => {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstname: data.firstname,
-        lastname: data.lastname,
-        email: data.email,
-        message: data.message,
-      }),
-    };
+  const [open, setOpen] = useState(false);
 
-    fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/v0/contact`, requestOptions).then(() => {});
+  const { mutate: postContact } = useMutate({
+    verb: 'POST',
+    path: '/api/v0/contact',
+  });
+
+  const buildRequestBody = (data) => {
+    const body = {
+      firstname: data.firstname,
+      lastname: data.lastname,
+      email: data.email,
+      message: data.message,
+    };
+    postContact(body).then(() => setOpen(true));
   };
 
   return (
     <div className={classes.contact_root}>
       <h1>Contact</h1>
-      <form className={classes.contact_form} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={classes.contact_form}
+        onSubmit={handleSubmit(buildRequestBody)}
+      >
         <TextField
           inputRef={register({
             required: {
@@ -110,6 +119,7 @@ export function ContactForm() {
         />
         <Button type="submit" variant="contained" color="secondary">Envoyer</Button>
       </form>
+      <Alert open={open} setOpen={setOpen} text="Mail sent successfully" color="#2e7d32" />
     </div>
   );
 }

@@ -1,7 +1,6 @@
-import { HttpException, Injectable } from '@nestjs/common';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const sendpulse = require('sendpulse-api');
+import { Injectable } from '@nestjs/common';
 import { ContactInput } from './dto/contact-input.model';
+import { init as sendpulseInit, smtpSendMail } from 'sendpulse-api';
 
 const checkDotEnvVariables = () => {
   let errors = '';
@@ -27,7 +26,7 @@ export class ContactService {
   constructor() {
     checkDotEnvVariables();
 
-    sendpulse.init(
+    sendpulseInit(
       process.env.SEND_PULSE_API_USER_ID,
       process.env.SEND_PULSE_API_SECRET,
       process.env.SEND_PULSE_TOKEN_STORAGE,
@@ -53,6 +52,7 @@ export class ContactService {
       ],
     };
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    await sendpulse.smtpSendMail(() => { }, mailOptionsUser);
+    await smtpSendMail(() => { }, mailOptionsUser);
+
   }
 }

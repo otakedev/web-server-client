@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   makeStyles,
 } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
@@ -11,10 +12,15 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     overflow: 'hidden',
   },
+  center: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '5em',
+  },
 }));
 
 export function GeoPage() {
-  const { data: message } = useGet({
+  const { data: message, loading } = useGet({
     path: '/api/v0/incidences/regions',
     resolve: (resp) => resp,
   });
@@ -28,7 +34,12 @@ export function GeoPage() {
 
   return (
     <div className={classes.root}>
-      {message && <GeoMapIncidences data={message} setTooltipContent={setContent} />}
+      {loading ? (
+        <div className={classes.center}>
+          <CircularProgress />
+        </div>
+      )
+        : <GeoMapIncidences data={message} setTooltipContent={setContent} />}
       <ReactTooltip>{content}</ReactTooltip>
     </div>
   );

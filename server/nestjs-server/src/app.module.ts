@@ -1,14 +1,13 @@
-import { env } from './environments/environments';
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { RouterModule, Routes } from 'nest-router';
+import { CaseConfirmModule } from './api/v0/case-confirm/case-confirm.module';
+import { ContactModule } from './api/v0/contact/contact.module';
+import { FiltersModule } from './api/v0/incidences/filters/filters.module';
+import { IncidencesModule } from './api/v0/incidences/incidences.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { IncidencesModule } from './api/v0/incidences/incidences.module';
-import { FiltersModule } from './api/v0/incidences/filters/filters.module';
-import { RouterModule, Routes } from 'nest-router';
-import { MongooseModule } from '@nestjs/mongoose';
-import { CaseConfirmModule } from './api/v0/case-confirm/case-confirm.module';
-import { ContactController } from './api/v0/contact/contact.controller';
-import { ContactModule } from './api/v0/contact/contact.module';
+import { env } from './environments/environments';
 
 const routes: Routes = [
   {

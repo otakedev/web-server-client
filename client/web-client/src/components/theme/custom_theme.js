@@ -29,7 +29,7 @@ function createColor(isDarkTheme, color) {
   });
 }
 
-function getTheme(color, isDark) {
+export const getTheme = (color, isDark) => {
   switch (color) {
     case 'green':
       return createColor(isDark, green);
@@ -40,6 +40,4 @@ function getTheme(color, isDark) {
     default:
       return createColor(false, blue);
   }
-}
-
-export default getTheme;
+};
