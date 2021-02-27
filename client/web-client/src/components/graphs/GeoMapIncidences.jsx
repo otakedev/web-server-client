@@ -14,15 +14,15 @@ const mapIdToRegion = {
   '04': 'Réunion',
   '06': 'Mayotte',
   24: 'Centre-Val de Loire',
-  27: 'Bourgogne et Franche-Comté',
+  27: 'Bourgogne-Franche-Comté',
   28: 'Normandie',
   32: 'Hauts-de-France',
   44: 'Grand Est',
   52: 'Pays de la Loire',
   53: 'Bretagne',
-  75: 'Nouvelle Aquitaine',
+  75: 'Nouvelle-Aquitaine',
   76: 'Occitanie',
-  84: 'Auvergne et Rhône-Alpes',
+  84: 'Auvergne-Rhône-Alpes',
   93: 'Provence-Alpes-Côte d\'Azur',
   94: 'Corse',
   975: 'Miquelon-Langlade et Saint Pierre',
@@ -31,7 +31,7 @@ const mapIdToRegion = {
 };
 
 const colorScale = scaleQuantize()
-  .domain([1, 1000])
+  .domain([1, 100])
   .range([
     '#ffedea',
     '#ffcec5',
