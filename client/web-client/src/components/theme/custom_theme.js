@@ -16,11 +16,11 @@ function createColor(isDarkTheme, color) {
         main: color[800],
         transparent: `${color[800]}30`,
         navbar: color[900],
-        link: '#ffffff',
+        link: isDarkTheme ? '#ffffff' : '#424242',
       },
       secondary: {
-        main: isDarkTheme ? '#ffffff' : color[800],
-        transparent: isDarkTheme ? '#ffffff30' : `${color[800]}30`,
+        main: isDarkTheme ? '#ffffff' : color[900],
+        transparent: isDarkTheme ? '#ffffff30' : `${color[900]}30`,
       },
       error: {
         main: red.A400,

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutate } from 'restful-react';
 import PropTypes from 'prop-types';
-import { Alert } from '../elements';
+import { Alert } from './Alert';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -16,19 +16,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Signup({ setIsConnected }) {
+export const Connect = ({ setIsConnected }) => {
   const classes = useStyles();
-
   const {
     register, handleSubmit, errors,
   } = useForm();
-  const [open, setOpen] = useState(false);
-  const [errorOpen, setErrorOpen] = useState(false);
-  const [errorText, setErrorText] = useState('Une erreur est survenue lors de l\'inscription');
 
-  const { mutate: postSignup } = useMutate({
+  const [open, setOpen] = useState(false);
+  const [wrongCredentialsOpen, setWrongCredentialsOpen] = useState(false);
+
+  const { mutate: postLogin } = useMutate({
     verb: 'POST',
-    path: '/api/v0/auth/signup',
+    path: '/api/v0/auth/login',
   });
 
   const history = useHistory();
@@ -37,7 +36,7 @@ export function Signup({ setIsConnected }) {
       username: data.username,
       password: data.password,
     };
-    postSignup(body).then((res) => {
+    postLogin(body).then((res) => {
       if (res.access_token) {
         localStorage.setItem('auth_token', res.access_token);
         setOpen(true);
@@ -46,19 +45,14 @@ export function Signup({ setIsConnected }) {
           history.push('/');
         }, 1500);
       }
-    }).catch((err) => {
-      if (err.status === 400) {
-        setErrorText(err.data.message);
-      } else {
-        setErrorText('Une erreur est survenue lors de l\'inscription');
-      }
-      setErrorOpen(true);
+    }).catch(() => {
+      setWrongCredentialsOpen(true);
     });
   };
 
   return (
     <div>
-      <h1>S&apos;inscrire</h1>
+      <h1>Se connecter</h1>
       <form
         className={classes.form}
         onSubmit={handleSubmit(buildRequestBody)}
@@ -94,16 +88,16 @@ export function Signup({ setIsConnected }) {
         />
         <Button type="submit" variant="contained" color="secondary">OK</Button>
       </form>
-      <Alert open={open} setOpen={setOpen} text="Votre compte a été créé. Redirection ..." color="#2e7d32" />
-      <Alert open={errorOpen} setOpen={setErrorOpen} text={errorText} color="#f55b5b" />
+      <Alert open={open} setOpen={setOpen} text="Connecté avec succès. Redirection ..." color="#2e7d32" />
+      <Alert open={wrongCredentialsOpen} setOpen={setWrongCredentialsOpen} text="Nom d'utilisateur ou mot de passe incorrect" color="#f55b5b" />
     </div>
   );
-}
+};
 
-Signup.propTypes = {
+Connect.propTypes = {
   setIsConnected: PropTypes.func,
 };
 
-Signup.defaultProps = {
+Connect.defaultProps = {
   setIsConnected: null,
 };
