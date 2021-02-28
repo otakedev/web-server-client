@@ -150,7 +150,7 @@ export const ThemePicker = ({ initialDarkState, initialColor, changeThemeCallbac
         >
           <FiberManualRecordIcon className={classes.purple} />
         </IconButton>
-        <Typography className={classes.typography}>Dark Theme
+        <Typography className={classes.typography}>Mode Sombre
           <MaterialSwitch
             checked={state.isDarkTheme}
             onChange={handleChange}

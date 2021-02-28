@@ -63,7 +63,7 @@ export function HomePage({ geolocation }) {
             <Link to={`${url}/table`}>Tableau</Link>
           </Typography>
           <Typography variant="h6" className={classes.link}>
-            <Link to={`${url}/chart`}>Chart</Link>
+            <Link to={`${url}/chart`}>Graphique</Link>
           </Typography>
         </Toolbar>
       </AppBar>

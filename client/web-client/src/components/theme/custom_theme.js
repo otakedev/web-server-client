@@ -5,6 +5,7 @@ import {
   grey,
   green,
 } from '@material-ui/core/colors';
+import { frFR } from '@material-ui/data-grid';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core';
 
 function createColor(isDarkTheme, color) {
@@ -29,7 +30,7 @@ function createColor(isDarkTheme, color) {
         transparent: isDarkTheme ? `${grey[800]}30` : '#ffffff30',
       },
     },
-  });
+  }, frFR);
 }
 
 export const getTheme = (color, isDark) => {

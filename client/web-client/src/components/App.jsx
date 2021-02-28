@@ -105,7 +105,7 @@ export const App = ({ setErrorFunc }) => {
         <Toolbar>
           <ResponsiveToolbarItem>
             <Typography variant="h6" className={classes.link}>
-              <Link to="/graph">Graphes</Link>
+              <Link to="/graph">Données</Link>
             </Typography>
             <Typography variant="h6" className={classes.link}>
               <Link to="/map">Carte par régions</Link>

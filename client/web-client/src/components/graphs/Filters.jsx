@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import frLocale from 'date-fns/locale/fr';
 import { mapIdToRegion } from '../../res/mapCodeToNameRegion';
 
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +90,7 @@ export const Filters = ({
       <Grid container justify="space-around" className={classes.grid}>
 
         <FormControl className={classes.formControl}>
-          <InputLabel id="class-age-label">Class age</InputLabel>
+          <InputLabel id="class-age-label">Classe d&apos;âge</InputLabel>
           <Controller
             as={Select}
             id="class-age"
@@ -106,7 +107,7 @@ export const Filters = ({
         </FormControl>
 
         <FormControl className={classes.formControl}>
-          <InputLabel id="reg-label">Regions</InputLabel>
+          <InputLabel id="reg-label">Régions</InputLabel>
           <Controller
             control={control}
             id="reg"
@@ -130,7 +131,7 @@ export const Filters = ({
 
         </FormControl>
 
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <MuiPickersUtilsProvider locale={frLocale} utils={DateFnsUtils}>
           <Controller
             as={KeyboardDatePicker}
             disableToolbar
@@ -141,7 +142,7 @@ export const Filters = ({
             variant="inline"
             format="dd/MM/yyyy"
             id="since-date-picker"
-            label="Since"
+            label="Depuis"
             onChange={handleSinceDateChangeDate}
             KeyboardButtonProps={{
               'aria-label': 'change date',
@@ -149,7 +150,7 @@ export const Filters = ({
           />
         </MuiPickersUtilsProvider>
 
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <MuiPickersUtilsProvider locale={frLocale} utils={DateFnsUtils}>
           <Controller
             as={KeyboardDatePicker}
             disableToolbar
@@ -160,7 +161,7 @@ export const Filters = ({
             variant="inline"
             format="dd/MM/yyyy"
             id="to-date-picker"
-            label="To"
+            label="Jusqu'au"
             onChange={handleToDateChangeDate}
             KeyboardButtonProps={{
               'aria-label': 'change date',
