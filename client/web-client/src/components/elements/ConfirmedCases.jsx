@@ -7,12 +7,10 @@ import {
 } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
-
   IconButton: {
     marginRight: '2rem',
     cursor: 'default',
   },
-
 }));
 
 export const ConfirmedCases = () => {

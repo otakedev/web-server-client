@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {
-  IconButton, Menu, MenuItem,
+  IconButton, Menu, MenuItem, Box,
 } from '@material-ui/core';
 
 export const SimpleMenu = ({ children }) => {
@@ -19,7 +19,7 @@ export const SimpleMenu = ({ children }) => {
   return (
     <div>
       <IconButton onClick={handleClick} component="span" aria-controls="simple-menu" aria-haspopup="true">
-        <MoreVertIcon />
+        <MoreVertIcon htmlColor="#ffffff" />
       </IconButton>
       <Menu
         id="simple-menu"
@@ -28,7 +28,9 @@ export const SimpleMenu = ({ children }) => {
         open={Boolean(anchorElement)}
         onClose={handleClose}
       >
-        {children.map((item) => <MenuItem onClick={handleClose}>{item}</MenuItem>)}
+        <Box bgcolor="info.main">
+          {children.map((item) => <MenuItem onClick={handleClose}>{item}</MenuItem>)}
+        </Box>
       </Menu>
     </div>
   );

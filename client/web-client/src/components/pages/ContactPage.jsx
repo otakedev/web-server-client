@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function ContactForm() {
+export const ContactPage = () => {
   const classes = useStyles();
 
   const {
@@ -121,4 +121,4 @@ export function ContactForm() {
       <Alert open={open} setOpen={setOpen} text="Mail sent successfully" color="#2e7d32" />
     </div>
   );
-}
+};

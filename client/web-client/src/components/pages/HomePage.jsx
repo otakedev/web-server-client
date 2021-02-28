@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     padding: '1rem',
     '& a': {
-      color: theme.palette.primary.link,
+      color: '#ffffff',
     },
   },
   filters: {
@@ -81,10 +81,10 @@ export function HomePage({ geolocation }) {
           <Redirect to={`${url}/chart`} />
         </Route>
         <Route exact path={`${path}/table`}>
-          {(loading || !data) ? <CircularProgress /> : <TableIncidences data={data} /> }
+          {(loading || !data) ? <CircularProgress /> : <TableIncidences data={data} />}
         </Route>
         <Route exact path={`${path}/chart`}>
-          {(loading || !data) ? <CircularProgress /> : <ChartIncidences data={data} /> }
+          {(loading || !data) ? <CircularProgress /> : <ChartIncidences data={data} />}
         </Route>
         <Redirect to="/error" />
       </Switch>

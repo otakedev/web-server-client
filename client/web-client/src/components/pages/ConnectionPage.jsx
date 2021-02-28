@@ -3,10 +3,9 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Connect } from './Connect';
-import { Signup } from './Signup';
+import { Connect, Signup } from '../elements';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     margin: 'auto',
     width: '30%',

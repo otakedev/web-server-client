@@ -1,6 +1,8 @@
 import {
   AppBar,
-  IconButton, makeStyles, Tooltip,
+  IconButton,
+  makeStyles,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,17 +10,22 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import React, { useState } from 'react';
 import {
-  Link, Redirect, Route,
-  Switch, useHistory,
+  Link,
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { getTheme, ThemePicker } from './theme';
 import {
-  ErrorPage, GeoPage,
-  HomePage, ConnectionPage,
+  ErrorPage,
+  GeoPage,
+  HomePage,
+  ConnectionPage,
+  ContactPage,
 } from './pages';
-import { ContactForm } from './pages/Contact';
 import { Geolocation, ConfirmedCases, ResponsiveToolbarItem } from './elements';
 
 function useStyles(theme) {
@@ -33,7 +40,7 @@ function useStyles(theme) {
     link: {
       padding: '1rem',
       '& a': {
-        color: theme.palette.primary.link,
+        color: '#ffffff',
       },
     },
     appBarRightSide: {
@@ -132,7 +139,7 @@ export const App = ({ setErrorFunc }) => {
                 </IconButton>
               </Tooltip>
             )
-            : null }
+            : null}
         </Toolbar>
       </AppBar>
 
@@ -153,7 +160,7 @@ export const App = ({ setErrorFunc }) => {
             <ConnectionPage setIsConnected={setIsConnected} />
           )}
         />
-        <Route path="/contact" component={ContactForm} />
+        <Route path="/contact" component={ContactPage} />
         <Route exact path="/error" component={ErrorPage} />
         <Route exact path="*">
           <Redirect to="/error" />

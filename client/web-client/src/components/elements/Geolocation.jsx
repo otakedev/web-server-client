@@ -8,13 +8,11 @@ import PropTypes from 'prop-types';
 import { mapNameRegionToCode } from '../../res/mapNameRegionToCode';
 
 const useStyles = makeStyles((theme) => ({
-
   PointerWith: {
     stroke: 'white',
     strokeWidth: '1',
     color: theme.palette.primary.main,
   },
-
 }));
 
 let nbGeolocateClicks = 0;
