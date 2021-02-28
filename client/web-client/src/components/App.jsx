@@ -114,9 +114,7 @@ export const App = ({ setErrorFunc }) => {
               <Link to="/contact">Contact</Link>
             </Typography>
           </ResponsiveToolbarItem>
-          <Tooltip title="Nombre de cas hospitalisés en France">
-            <ConfirmedCases />
-          </Tooltip>
+          <ConfirmedCases />
           <Geolocation setGeoFunction={setCurrentRegion} theme={currentTheme} />
           <ThemePicker
             initialDarkState={initialDarkState}
