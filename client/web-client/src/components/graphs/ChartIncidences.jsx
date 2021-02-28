@@ -50,7 +50,7 @@ export const ChartIncidences = ({ data }) => {
             pointBorderColor: theme.palette.primary.main,
             pointHoverBackgroundColor: theme.palette.primary.main,
             pointHoverBorderColor: theme.palette.primary.main,
-            label: 'Incidences',
+            label: 'Taux d\'incidence',
             data: data.map((d) => d.tx_std),
           },
         ],
