@@ -8,6 +8,8 @@ import { IncidencesModule } from './api/v0/incidences/incidences.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { env } from './environments/environments';
+import { AuthModule } from './api/v0/auth/auth.module';
+import { UsersModule } from './api/v0/users/users.module';
 
 const routes: Routes = [
   {
@@ -28,6 +30,10 @@ const routes: Routes = [
     path: '/contact',
     module: ContactModule,
   },
+  {
+    path: '/auth',
+    module: AuthModule,
+  },
 ];
 
 @Module({
@@ -41,6 +47,8 @@ const routes: Routes = [
     IncidencesModule,
     CaseConfirmModule,
     ContactModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,9 +7,11 @@ import {
   Post,
   Query,
   UploadedFile,
+  UseGuards,
   UseInterceptors
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { IncidenceInput, IncidenceRegionModel } from './dto/incidence-input.model';
 import { IncidencesService } from './incidences.service';
 
@@ -17,11 +19,13 @@ import { IncidencesService } from './incidences.service';
 export class IncidencesController {
   constructor(private readonly incidencesService: IncidencesService) { }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getIncidences(@Query() query) {
     return await this.incidencesService.findIncidenceRateFilters(query);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/regions')
   async getIncidencesByRegion(): Promise<IncidenceRegionModel> {
     const incidences = await this.incidencesService.findAllByRegion(1);

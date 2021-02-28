@@ -12,6 +12,8 @@ pipeline{
                 SEND_PULSE_TOKEN_STORAGE="tmp;"
                 OTAKE_EMAIL="contact@otakedev.com"
                 OTAKE_NAME="Otake"
+                SECRET_FOR_PASSWORD="${SECRET_FOR_PASSWORD}"
+                SECRET_FOR_TOKEN="${SECRET_FOR_TOKEN}"
             }
             when { expression { BRANCH_NAME ==~ /(develop)/ }}
             steps {

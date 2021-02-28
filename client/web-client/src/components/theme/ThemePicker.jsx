@@ -21,7 +21,6 @@ function useStyles(theme) {
   return makeStyles(() => ({
     root: {
       display: 'flex',
-      marginLeft: 'auto',
     },
 
     typography: {

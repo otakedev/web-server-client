@@ -4,10 +4,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { config } from 'dotenv';
 
-
 async function bootstrap() {
   config();
-
+  
   const app = await NestFactory.create(AppModule, { cors: true });
   app.setGlobalPrefix(env.project.prefix);
 

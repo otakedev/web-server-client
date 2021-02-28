@@ -5,6 +5,7 @@ import { IncidencesController } from './incidences.controller';
 import { IncidenceSchema } from './incidence.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FiltersModule } from './filters/filters.module';
+import { JwtStrategy } from '../auth/jwt.strategy';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { FiltersModule } from './filters/filters.module';
     ]),
     FiltersModule,
   ],
-  providers: [IncidencesService],
+  providers: [IncidencesService, JwtStrategy],
   controllers: [IncidencesController],
 })
 export class IncidencesModule { }

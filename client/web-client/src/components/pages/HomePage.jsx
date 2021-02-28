@@ -81,10 +81,10 @@ export function HomePage({ geolocation }) {
           <Redirect to={`${url}/chart`} />
         </Route>
         <Route exact path={`${path}/table`}>
-          {loading ? <CircularProgress /> : <TableIncidences data={data} /> }
+          {(loading || !data) ? <CircularProgress /> : <TableIncidences data={data} /> }
         </Route>
         <Route exact path={`${path}/chart`}>
-          {loading ? <CircularProgress /> : <ChartIncidences data={data} /> }
+          {(loading || !data) ? <CircularProgress /> : <ChartIncidences data={data} /> }
         </Route>
         <Redirect to="/error" />
       </Switch>
