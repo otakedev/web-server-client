@@ -19,8 +19,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   grid: {
-    width: '30vw',
-    minWidth: '30rem',
+    width: 'clamp(16rem, 90vw, 70rem)',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem',
   },
 }));
 
@@ -84,6 +87,7 @@ export const Filters = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container justify="space-around" className={classes.grid}>
+
         <FormControl className={classes.formControl}>
           <InputLabel id="class-age-label">Class age</InputLabel>
           <Controller
@@ -163,7 +167,9 @@ export const Filters = ({
             }}
           />
         </MuiPickersUtilsProvider>
+
         <Button type="submit" color="secondary">Envoyer</Button>
+
       </Grid>
     </form>
   );
