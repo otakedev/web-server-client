@@ -13,17 +13,20 @@ function createColor(isDarkTheme, color) {
       type: isDarkTheme ? 'dark' : 'light',
       primary: {
         main: color[800],
+        transparent: `${color[800]}30`,
         navbar: color[900],
         link: '#ffffff',
       },
       secondary: {
         main: isDarkTheme ? '#ffffff' : color[800],
+        transparent: isDarkTheme ? '#ffffff30' : `${color[800]}30`,
       },
       error: {
         main: red.A400,
       },
       background: {
         default: isDarkTheme ? grey[800] : '#ffffff',
+        transparent: isDarkTheme ? `${grey[800]}30` : '#ffffff30',
       },
     },
   });

@@ -1,7 +1,9 @@
 import {
   AppBar,
-
-  Badge, IconButton, makeStyles, Tooltip,
+  Badge,
+  IconButton,
+  makeStyles,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,7 +18,7 @@ import { useGet } from 'restful-react';
 import { getTheme, ThemePicker } from './theme';
 import { ErrorPage, GeoPage, HomePage } from './pages';
 import { ContactForm } from './pages/Contact';
-import { Geolocation } from './elements';
+import { Geolocation, ResponsiveToolbarItem } from './elements';
 
 function useStyles(theme) {
   return makeStyles(() => ({
@@ -100,20 +102,25 @@ export const App = () => {
         <CssBaseline />
         <AppBar position="static" className={classes.root}>
           <Toolbar>
-            <Typography variant="h6" className={classes.link}>
-              <Link to="/graph">Graphes</Link>
-            </Typography>
-            <Typography variant="h6" className={classes.link}>
-              <Link to="/map">Carte par régions</Link>
-            </Typography>
-            <Typography variant="h6" className={classes.link}>
-              <Link to="/contact">Contact</Link>
-            </Typography>
+
+            <ResponsiveToolbarItem>
+              <Typography variant="h6" className={classes.link}>
+                <Link to="/graph">Graphes</Link>
+              </Typography>
+              <Typography variant="h6" className={classes.link}>
+                <Link to="/map">Carte par régions</Link>
+              </Typography>
+              <Typography variant="h6" className={classes.link}>
+                <Link to="/contact">Contact</Link>
+              </Typography>
+            </ResponsiveToolbarItem>
+
             <Tooltip title="Nombre de cas hospitalisés en France">
               <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
                 {badge}
               </IconButton>
             </Tooltip>
+
             <Geolocation setGeoFunction={setCurrentRegion} theme={currentTheme} />
           </Toolbar>
           <ThemePicker

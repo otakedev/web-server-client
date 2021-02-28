@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import Chartjs from 'chart.js';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(() => ({
   chartContainer: {
-    height: '40vh',
-    width: '80vw',
+    position: 'relative',
+    maxWidth: '80em',
     margin: 'auto',
   },
 }));
@@ -14,6 +14,7 @@ const useStyles = makeStyles(() => ({
 let newChartInstance = null;
 
 export const ChartIncidences = ({ data }) => {
+  const theme = useTheme();
   const chartContainer = useRef(null);
   const classes = useStyles();
 
@@ -21,19 +22,41 @@ export const ChartIncidences = ({ data }) => {
     newChartInstance?.destroy();
 
     newChartInstance = new Chartjs(chartContainer.current, {
+      options: {
+        responsive: true,
+        legend: {
+          labels: {
+            fontColor: theme.palette.secondary.main,
+            fontSize: 18,
+          },
+        },
+        scales: {
+          yAxes: [{
+            stacked: true,
+          }],
+          xAxes: [{
+            stacked: true,
+          }],
+        },
+      },
       type: 'line',
       data: {
-        labels: data.map((d) => d.jour),
+        labels: data.map((d) => new Date(d.jour).toLocaleDateString('fr-FR')),
         datasets: [
           {
+            borderColor: theme.palette.secondary.main,
+            backgroundColor: theme.palette.secondary.transparent,
+            pointBackgroundColor: theme.palette.primary.main,
+            pointBorderColor: theme.palette.primary.main,
+            pointHoverBackgroundColor: theme.palette.primary.main,
+            pointHoverBorderColor: theme.palette.primary.main,
             label: 'Incidences',
-
             data: data.map((d) => d.tx_std),
           },
         ],
       },
     });
-  }, [data]);
+  });
 
   return (
     <div className={classes.chartContainer}>
