@@ -17,6 +17,8 @@ services:
       - SEND_PULSE_TOKEN_STORAGE=${SEND_PULSE_TOKEN_STORAGE}
       - OTAKE_EMAIL=${OTAKE_EMAIL}
       - OTAKE_NAME=${OTAKE_NAME}
+      - SECRET_FOR_PASSWORD=${SECRET_FOR_PASSWORD}
+      - SECRET_FOR_TOKEN=${SECRET_FOR_TOKEN}
 
   client:
     image: web-project/client

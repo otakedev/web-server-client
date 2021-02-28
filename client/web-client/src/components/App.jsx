@@ -1,24 +1,25 @@
 import {
   AppBar,
-  Badge,
-  IconButton,
-  makeStyles,
-  Tooltip,
+  IconButton, makeStyles, Tooltip,
   Typography,
 } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  BrowserRouter, Link, Redirect, Route, Switch,
+  Link, Redirect, Route,
+  Switch, useHistory,
 } from 'react-router-dom';
-import { useGet } from 'restful-react';
+import PropTypes from 'prop-types';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { getTheme, ThemePicker } from './theme';
-import { ErrorPage, GeoPage, HomePage } from './pages';
+import {
+  ErrorPage, GeoPage,
+  HomePage, ConnectionPage,
+} from './pages';
 import { ContactForm } from './pages/Contact';
-import { Geolocation, ResponsiveToolbarItem } from './elements';
+import { Geolocation, ConfirmedCases, ResponsiveToolbarItem } from './elements';
 
 function useStyles(theme) {
   return makeStyles(() => ({
@@ -34,6 +35,11 @@ function useStyles(theme) {
       '& a': {
         color: theme.palette.primary.link,
       },
+    },
+    appBarRightSide: {
+      display: 'flex',
+      marginLeft: 'auto',
+      color: 'white',
     },
 
     IconButton: {
@@ -54,13 +60,10 @@ function useStyles(theme) {
   }));
 }
 
-export const App = () => {
-  const { data: numberCaseConfirm, loading, refetch } = useGet({ path: 'api/v0/case-confirm' });
+export const App = ({ setErrorFunc }) => {
   const initialThemeFromStorage = JSON.parse(localStorage.getItem('reactAppTheme'));
   const [currentRegion, setCurrentRegion] = useState(null);
 
-  const MAX_PRINTABLE_NUMBER = 99999999;
-  const INTERVAL_TIME = 60000;
   let initialColor;
   let initialDarkState;
   let initialTheme;
@@ -75,79 +78,97 @@ export const App = () => {
   }
 
   const [currentTheme, setCurrentTheme] = React.useState(initialTheme);
+  const [authToken, setAuthToken] = useState(localStorage.getItem('auth_token'));
+  const [isConnected, setIsConnected] = useState(false);
   const classes = useStyles(initialTheme)();
 
   const changeCurrentTheme = (theme) => {
     setCurrentTheme(theme);
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refetch();
-    }, INTERVAL_TIME);
+  const history = useHistory();
+  const disconnect = () => {
+    localStorage.removeItem('auth_token');
+    setIsConnected(false);
+    setAuthToken(false);
+    history.push('/connection');
+  };
 
-    return () => clearInterval(interval);
-  }, []);
-
-  let badge;
-  if (loading) {
-    badge = <Badge badgeContent="Loading" color="primary"><LocalHospitalIcon /></Badge>;
-  } else {
-    badge = <Badge badgeContent={numberCaseConfirm} max={MAX_PRINTABLE_NUMBER} color="secondary"><LocalHospitalIcon /></Badge>;
+  if (setErrorFunc) {
+    setErrorFunc(disconnect);
   }
 
   return (
-    <BrowserRouter>
-      <ThemeProvider theme={currentTheme}>
-        <CssBaseline />
-        <AppBar position="static" className={classes.root}>
-          <Toolbar>
-
-            <ResponsiveToolbarItem>
-              <Typography variant="h6" className={classes.link}>
-                <Link to="/graph">Graphes</Link>
-              </Typography>
-              <Typography variant="h6" className={classes.link}>
-                <Link to="/map">Carte par régions</Link>
-              </Typography>
-              <Typography variant="h6" className={classes.link}>
-                <Link to="/contact">Contact</Link>
-              </Typography>
-            </ResponsiveToolbarItem>
-
-            <Tooltip title="Nombre de cas hospitalisés en France">
-              <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
-                {badge}
-              </IconButton>
-            </Tooltip>
-
-            <Geolocation setGeoFunction={setCurrentRegion} theme={currentTheme} />
-          </Toolbar>
+    <ThemeProvider theme={currentTheme}>
+      <CssBaseline />
+      <AppBar position="static" className={classes.root}>
+        <Toolbar>
+          <ResponsiveToolbarItem>
+            <Typography variant="h6" className={classes.link}>
+              <Link to="/graph">Graphes</Link>
+            </Typography>
+            <Typography variant="h6" className={classes.link}>
+              <Link to="/map">Carte par régions</Link>
+            </Typography>
+            <Typography variant="h6" className={classes.link}>
+              <Link to="/contact">Contact</Link>
+            </Typography>
+          </ResponsiveToolbarItem>
+          <Tooltip title="Nombre de cas hospitalisés en France">
+            <ConfirmedCases />
+          </Tooltip>
+          <Geolocation setGeoFunction={setCurrentRegion} theme={currentTheme} />
           <ThemePicker
             initialDarkState={initialDarkState}
             initialColor={initialColor}
             changeThemeCallback={changeCurrentTheme}
           />
-        </AppBar>
+          {authToken || isConnected
+            ? (
+              <Tooltip title="Se déconnecter">
+                <IconButton
+                  onClick={() => disconnect()}
+                  className={classes.appBarRightSide}
+                >
+                  <ExitToAppIcon />
+                </IconButton>
+              </Tooltip>
+            )
+            : null }
+        </Toolbar>
+      </AppBar>
 
-        <Switch>
-          <Route exact path="/">
-            <Redirect to="/graph" />
-          </Route>
-          <Route
-            path="/graph"
-            render={() => (
-              <HomePage geolocation={currentRegion} />
-            )}
-          />
-          <Route path="/map" component={GeoPage} />
-          <Route path="/contact" component={ContactForm} />
-          <Route exact path="/error" component={ErrorPage} />
-          <Route exact path="*">
-            <Redirect to="/error" />
-          </Route>
-        </Switch>
-      </ThemeProvider>
-    </BrowserRouter>
+      <Switch>
+        <Route exact path="/">
+          <Redirect to="/graph" />
+        </Route>
+        <Route
+          path="/graph"
+          render={() => (
+            <HomePage geolocation={currentRegion} />
+          )}
+        />
+        <Route path="/map" component={GeoPage} />
+        <Route
+          path="/connection"
+          render={() => (
+            <ConnectionPage setIsConnected={setIsConnected} />
+          )}
+        />
+        <Route path="/contact" component={ContactForm} />
+        <Route exact path="/error" component={ErrorPage} />
+        <Route exact path="*">
+          <Redirect to="/error" />
+        </Route>
+      </Switch>
+    </ThemeProvider>
   );
+};
+
+App.propTypes = {
+  setErrorFunc: PropTypes.func,
+};
+
+App.defaultProps = {
+  setErrorFunc: null,
 };
