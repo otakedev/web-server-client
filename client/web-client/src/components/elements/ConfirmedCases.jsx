@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import {
   Badge, IconButton, makeStyles,
+  Tooltip,
 } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
@@ -36,8 +37,10 @@ export const ConfirmedCases = () => {
   }
 
   return (
-    <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
-      {badge}
-    </IconButton>
+    <Tooltip title="Nombre de cas hospitalisés en France">
+      <IconButton aria-label="icon button" color="inherit" className={classes.IconButton}>
+        {badge}
+      </IconButton>
+    </Tooltip>
   );
 };

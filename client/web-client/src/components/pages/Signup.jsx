@@ -23,7 +23,8 @@ export function Signup({ setIsConnected }) {
     register, handleSubmit, errors,
   } = useForm();
   const [open, setOpen] = useState(false);
-  const [wrongCredentialsOpen, setWrongCredentialsOpen] = useState(false);
+  const [errorOpen, setErrorOpen] = useState(false);
+  const [errorText, setErrorText] = useState('Une erreur est survenue lors de l\'inscription');
 
   const { mutate: postSignup } = useMutate({
     verb: 'POST',
@@ -46,7 +47,12 @@ export function Signup({ setIsConnected }) {
         }, 1500);
       }
     }).catch((err) => {
-      setWrongCredentialsOpen(true);
+      if (err.status === 400) {
+        setErrorText(err.data.message);
+      } else {
+        setErrorText('Une erreur est survenue lors de l\'inscription');
+      }
+      setErrorOpen(true);
     });
   };
 
@@ -89,7 +95,7 @@ export function Signup({ setIsConnected }) {
         <Button type="submit" variant="contained" color="secondary">OK</Button>
       </form>
       <Alert open={open} setOpen={setOpen} text="Votre compte a été créé. Redirection ..." color="#2e7d32" />
-      <Alert open={wrongCredentialsOpen} setOpen={setWrongCredentialsOpen} text="Une erreur est survenue lors de l'inscription" color="#f55b5b" />
+      <Alert open={errorOpen} setOpen={setErrorOpen} text={errorText} color="#f55b5b" />
     </div>
   );
 }
