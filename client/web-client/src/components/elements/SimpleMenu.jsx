@@ -23,12 +23,14 @@ export const SimpleMenu = ({ children }) => {
       </IconButton>
       <Menu
         id="simple-menu"
+        getContentAnchorEl={null}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         anchorElement={anchorElement}
         keepMounted
         open={Boolean(anchorElement)}
         onClose={handleClose}
       >
-        <Box bgcolor="info.main">
+        <Box bgcolor="secondary.main">
           {children.map((item) => <MenuItem onClick={handleClose}>{item}</MenuItem>)}
         </Box>
       </Menu>
