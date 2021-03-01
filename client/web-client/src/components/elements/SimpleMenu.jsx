@@ -30,7 +30,7 @@ export const SimpleMenu = ({ children }) => {
         open={Boolean(anchorElement)}
         onClose={handleClose}
       >
-        <Box bgcolor="secondary.main">
+        <Box bgcolor="secondary.default">
           {children.map((item) => <MenuItem onClick={handleClose}>{item}</MenuItem>)}
         </Box>
       </Menu>

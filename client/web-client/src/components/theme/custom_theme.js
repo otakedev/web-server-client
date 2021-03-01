@@ -19,6 +19,7 @@ function createColor(isDarkTheme, color) {
         link: isDarkTheme ? '#ffffff' : '#424242',
       },
       secondary: {
+        default: color[900],
         main: isDarkTheme ? '#ffffff' : color[900],
         transparent: isDarkTheme ? '#ffffff30' : `${color[900]}30`,
       },
